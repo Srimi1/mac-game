@@ -1,0 +1,647 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		02A3775128921A2894ED62A7 /* GameRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA3C9DDBB2BF97CF0E9C7AF /* GameRules.swift */; };
+		165CC1D394C9B85EE94E659D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42498904993AE7912B1644C9 /* Assets.xcassets */; };
+		169FE3B2D0704C31483485A4 /* SoundEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F2FF6B03DAB367B27CEA6A2 /* SoundEngine.swift */; };
+		18433D5A75F93DADC533D237 /* LevelCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABCC63AD5EC2E17E6078945 /* LevelCatalog.swift */; };
+		2431A871108321E4E6F0C4FD /* GameContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0383196A537FD523E190CFD /* GameContainerView.swift */; };
+		248F6E64C1B42D09F3821C6C /* BreakTheQuietDaysUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD755939D2D914C2AB94750 /* BreakTheQuietDaysUITests.swift */; };
+		33B052184F5FDC1BE3578740 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8E46BD8AC3836E57C8F1C6 /* SettingsView.swift */; };
+		3BF30CEFAD4FB2009580D24F /* GameSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA548573F921AB6409A1631 /* GameSession.swift */; };
+		3FBBC8B4D46C2BD8409758B1 /* EndViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC98B5A3E53D7DB965DCFAC /* EndViews.swift */; };
+		43C3D4EE95F91653BA6EBDE8 /* LevelCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC1D650919E034E19836699 /* LevelCatalogTests.swift */; };
+		6162ECF8633069A229C8B941 /* GameModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B08750E48AE87373BD3A12 /* GameModels.swift */; };
+		631F91C7B3B0F1CA2860FE56 /* GameSceneSmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46ADB9AF80DF1C8535BF1EE /* GameSceneSmokeTests.swift */; };
+		6AB4C149CE3BB7B71501481D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99EB05BE3F8AF30406396EB /* HomeView.swift */; };
+		893836F2AF26C8253EB86C82 /* BrickPatternTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5E9568FDCE65C52EF06DB6 /* BrickPatternTests.swift */; };
+		930AA7C48589EF01ACCDDDE1 /* BreakTheQuietDaysApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA21773B6CDD2D096768F6C1 /* BreakTheQuietDaysApp.swift */; };
+		9CADA14EF79B75E564BC1B8F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B68D1A463348D45E2953F5 /* GameScene.swift */; };
+		ABA509CC00C49D3BF19993C4 /* PersistenceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1FD392793B65AA7590538A /* PersistenceStore.swift */; };
+		AE59B90581B9F96F1D674988 /* GameNodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A56E48D3327D53B091D092 /* GameNodes.swift */; };
+		BA3DB5AB27CF580614C15945 /* PersistenceStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F1027BD04DF38A304C9791 /* PersistenceStoreTests.swift */; };
+		D08A1185B2252D596AA43703 /* levels.json in Resources */ = {isa = PBXBuildFile; fileRef = 376403AF031E952A90809C2F /* levels.json */; };
+		DDA53BA45EF92F75468E21C4 /* GameSpriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9A7B66FE08BF2BFF7D3F63 /* GameSpriteView.swift */; };
+		E1D5AECBC77237CE1A33C63B /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3ECD6E3D6490444206CDD /* Components.swift */; };
+		E39D479EAB79AA05B024912C /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E65E407A88D6BA90DE373A4 /* RootView.swift */; };
+		EC060A4CEC03C088C44E3DC7 /* GameRulesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA6F6A3E2FB4C5B95790134 /* GameRulesTests.swift */; };
+		F4AB7044B4F17FD0F1A2B82A /* DaySelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDBFA355996E1A745EC74E16 /* DaySelectView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D3759EF9BA0CFEB30B557DD9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C73FB9BD2F8BFCB8A160797D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4FA84BA6E3C2BA5236240B52;
+			remoteInfo = BreakTheQuietDays;
+		};
+		FCCB8A27BBC8BC32A865B965 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C73FB9BD2F8BFCB8A160797D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4FA84BA6E3C2BA5236240B52;
+			remoteInfo = BreakTheQuietDays;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		01B68D1A463348D45E2953F5 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		0B8E46BD8AC3836E57C8F1C6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		0F2FF6B03DAB367B27CEA6A2 /* SoundEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundEngine.swift; sourceTree = "<group>"; };
+		14925E23DF58FFC394EB71DD /* BreakTheQuietDays.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BreakTheQuietDays.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ABCC63AD5EC2E17E6078945 /* LevelCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelCatalog.swift; sourceTree = "<group>"; };
+		1AE3ECD6E3D6490444206CDD /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
+		2B9A7B66FE08BF2BFF7D3F63 /* GameSpriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSpriteView.swift; sourceTree = "<group>"; };
+		2CA548573F921AB6409A1631 /* GameSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSession.swift; sourceTree = "<group>"; };
+		2E5E9568FDCE65C52EF06DB6 /* BrickPatternTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrickPatternTests.swift; sourceTree = "<group>"; };
+		2E65E407A88D6BA90DE373A4 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		376403AF031E952A90809C2F /* levels.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = levels.json; sourceTree = "<group>"; };
+		3DD755939D2D914C2AB94750 /* BreakTheQuietDaysUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakTheQuietDaysUITests.swift; sourceTree = "<group>"; };
+		3F1A83E8008BBD2E529C90F5 /* BreakTheQuietDaysTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BreakTheQuietDaysTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		42498904993AE7912B1644C9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6B0D31014794CB1CEC9F3508 /* BreakTheQuietDaysUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BreakTheQuietDaysUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6BA3C9DDBB2BF97CF0E9C7AF /* GameRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRules.swift; sourceTree = "<group>"; };
+		6BC1D650919E034E19836699 /* LevelCatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelCatalogTests.swift; sourceTree = "<group>"; };
+		A2F1027BD04DF38A304C9791 /* PersistenceStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceStoreTests.swift; sourceTree = "<group>"; };
+		A99EB05BE3F8AF30406396EB /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		AA1FD392793B65AA7590538A /* PersistenceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceStore.swift; sourceTree = "<group>"; };
+		AA21773B6CDD2D096768F6C1 /* BreakTheQuietDaysApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakTheQuietDaysApp.swift; sourceTree = "<group>"; };
+		ADC98B5A3E53D7DB965DCFAC /* EndViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndViews.swift; sourceTree = "<group>"; };
+		B46ADB9AF80DF1C8535BF1EE /* GameSceneSmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneSmokeTests.swift; sourceTree = "<group>"; };
+		CDBFA355996E1A745EC74E16 /* DaySelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectView.swift; sourceTree = "<group>"; };
+		D0383196A537FD523E190CFD /* GameContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameContainerView.swift; sourceTree = "<group>"; };
+		DEA6F6A3E2FB4C5B95790134 /* GameRulesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRulesTests.swift; sourceTree = "<group>"; };
+		E0B08750E48AE87373BD3A12 /* GameModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModels.swift; sourceTree = "<group>"; };
+		F3A56E48D3327D53B091D092 /* GameNodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameNodes.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0112DB480B0DBB9ADE590DA8 = {
+			isa = PBXGroup;
+			children = (
+				63D2A6A99EAB8910A137C69A /* Resources */,
+				1EBDB9253B0F046FA6882E79 /* Sources */,
+				F1FFD0BD88010BDD6FA338E6 /* Tests */,
+				3D2A4DD8E0242C2635E29F2D /* TestsUI */,
+				52B9F4526BDE72FA052673AB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1EBDB9253B0F046FA6882E79 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				2A70781F8F13222FC3A6AFCE /* App */,
+				6379F8ED1588FC381785D58D /* Audio */,
+				DADFE8EE84836F6356256405 /* Game */,
+				7D8CE50BAED25379D5F0E174 /* Models */,
+				632888B23835F66A95A7B73B /* Views */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		2A70781F8F13222FC3A6AFCE /* App */ = {
+			isa = PBXGroup;
+			children = (
+				AA21773B6CDD2D096768F6C1 /* BreakTheQuietDaysApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		3D2A4DD8E0242C2635E29F2D /* TestsUI */ = {
+			isa = PBXGroup;
+			children = (
+				3DD755939D2D914C2AB94750 /* BreakTheQuietDaysUITests.swift */,
+			);
+			path = TestsUI;
+			sourceTree = "<group>";
+		};
+		52B9F4526BDE72FA052673AB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				14925E23DF58FFC394EB71DD /* BreakTheQuietDays.app */,
+				3F1A83E8008BBD2E529C90F5 /* BreakTheQuietDaysTests.xctest */,
+				6B0D31014794CB1CEC9F3508 /* BreakTheQuietDaysUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		632888B23835F66A95A7B73B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1AE3ECD6E3D6490444206CDD /* Components.swift */,
+				CDBFA355996E1A745EC74E16 /* DaySelectView.swift */,
+				ADC98B5A3E53D7DB965DCFAC /* EndViews.swift */,
+				D0383196A537FD523E190CFD /* GameContainerView.swift */,
+				A99EB05BE3F8AF30406396EB /* HomeView.swift */,
+				2E65E407A88D6BA90DE373A4 /* RootView.swift */,
+				0B8E46BD8AC3836E57C8F1C6 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6379F8ED1588FC381785D58D /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				0F2FF6B03DAB367B27CEA6A2 /* SoundEngine.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		63D2A6A99EAB8910A137C69A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				42498904993AE7912B1644C9 /* Assets.xcassets */,
+				376403AF031E952A90809C2F /* levels.json */,
+			);
+			name = Resources;
+			path = Sources/Resources;
+			sourceTree = "<group>";
+		};
+		7D8CE50BAED25379D5F0E174 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E0B08750E48AE87373BD3A12 /* GameModels.swift */,
+				2CA548573F921AB6409A1631 /* GameSession.swift */,
+				1ABCC63AD5EC2E17E6078945 /* LevelCatalog.swift */,
+				AA1FD392793B65AA7590538A /* PersistenceStore.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		DADFE8EE84836F6356256405 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				F3A56E48D3327D53B091D092 /* GameNodes.swift */,
+				6BA3C9DDBB2BF97CF0E9C7AF /* GameRules.swift */,
+				01B68D1A463348D45E2953F5 /* GameScene.swift */,
+				2B9A7B66FE08BF2BFF7D3F63 /* GameSpriteView.swift */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		F1FFD0BD88010BDD6FA338E6 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				2E5E9568FDCE65C52EF06DB6 /* BrickPatternTests.swift */,
+				DEA6F6A3E2FB4C5B95790134 /* GameRulesTests.swift */,
+				B46ADB9AF80DF1C8535BF1EE /* GameSceneSmokeTests.swift */,
+				6BC1D650919E034E19836699 /* LevelCatalogTests.swift */,
+				A2F1027BD04DF38A304C9791 /* PersistenceStoreTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4FA84BA6E3C2BA5236240B52 /* BreakTheQuietDays */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F41F86A618E3C0365D2D5EC4 /* Build configuration list for PBXNativeTarget "BreakTheQuietDays" */;
+			buildPhases = (
+				4AE907CF7297E2034DA5B69C /* Sources */,
+				072E935F61FC8F0275CAD616 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BreakTheQuietDays;
+			packageProductDependencies = (
+			);
+			productName = BreakTheQuietDays;
+			productReference = 14925E23DF58FFC394EB71DD /* BreakTheQuietDays.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7AD906037305BC18241000CD /* BreakTheQuietDaysUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 530C148CE8CDA5A478D37CB3 /* Build configuration list for PBXNativeTarget "BreakTheQuietDaysUITests" */;
+			buildPhases = (
+				3197C8F0EDE3186DA80EAE14 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1E0036A8C85483F13D323071 /* PBXTargetDependency */,
+			);
+			name = BreakTheQuietDaysUITests;
+			packageProductDependencies = (
+			);
+			productName = BreakTheQuietDaysUITests;
+			productReference = 6B0D31014794CB1CEC9F3508 /* BreakTheQuietDaysUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		D9258E0134B138479B560E53 /* BreakTheQuietDaysTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3BC248530C381A4891E8E2C6 /* Build configuration list for PBXNativeTarget "BreakTheQuietDaysTests" */;
+			buildPhases = (
+				5540E24BD486EABFD13934CB /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8B2D5D9E04EBBCC5C4B98097 /* PBXTargetDependency */,
+			);
+			name = BreakTheQuietDaysTests;
+			packageProductDependencies = (
+			);
+			productName = BreakTheQuietDaysTests;
+			productReference = 3F1A83E8008BBD2E529C90F5 /* BreakTheQuietDaysTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C73FB9BD2F8BFCB8A160797D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					7AD906037305BC18241000CD = {
+						TestTargetID = 4FA84BA6E3C2BA5236240B52;
+					};
+				};
+			};
+			buildConfigurationList = D88624B1D5E847C9FFFC830A /* Build configuration list for PBXProject "BreakTheQuietDays" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 0112DB480B0DBB9ADE590DA8;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 52B9F4526BDE72FA052673AB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4FA84BA6E3C2BA5236240B52 /* BreakTheQuietDays */,
+				D9258E0134B138479B560E53 /* BreakTheQuietDaysTests */,
+				7AD906037305BC18241000CD /* BreakTheQuietDaysUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		072E935F61FC8F0275CAD616 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				165CC1D394C9B85EE94E659D /* Assets.xcassets in Resources */,
+				D08A1185B2252D596AA43703 /* levels.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3197C8F0EDE3186DA80EAE14 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				248F6E64C1B42D09F3821C6C /* BreakTheQuietDaysUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4AE907CF7297E2034DA5B69C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				930AA7C48589EF01ACCDDDE1 /* BreakTheQuietDaysApp.swift in Sources */,
+				E1D5AECBC77237CE1A33C63B /* Components.swift in Sources */,
+				F4AB7044B4F17FD0F1A2B82A /* DaySelectView.swift in Sources */,
+				3FBBC8B4D46C2BD8409758B1 /* EndViews.swift in Sources */,
+				2431A871108321E4E6F0C4FD /* GameContainerView.swift in Sources */,
+				6162ECF8633069A229C8B941 /* GameModels.swift in Sources */,
+				AE59B90581B9F96F1D674988 /* GameNodes.swift in Sources */,
+				02A3775128921A2894ED62A7 /* GameRules.swift in Sources */,
+				9CADA14EF79B75E564BC1B8F /* GameScene.swift in Sources */,
+				3BF30CEFAD4FB2009580D24F /* GameSession.swift in Sources */,
+				DDA53BA45EF92F75468E21C4 /* GameSpriteView.swift in Sources */,
+				6AB4C149CE3BB7B71501481D /* HomeView.swift in Sources */,
+				18433D5A75F93DADC533D237 /* LevelCatalog.swift in Sources */,
+				ABA509CC00C49D3BF19993C4 /* PersistenceStore.swift in Sources */,
+				E39D479EAB79AA05B024912C /* RootView.swift in Sources */,
+				33B052184F5FDC1BE3578740 /* SettingsView.swift in Sources */,
+				169FE3B2D0704C31483485A4 /* SoundEngine.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5540E24BD486EABFD13934CB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				893836F2AF26C8253EB86C82 /* BrickPatternTests.swift in Sources */,
+				EC060A4CEC03C088C44E3DC7 /* GameRulesTests.swift in Sources */,
+				631F91C7B3B0F1CA2860FE56 /* GameSceneSmokeTests.swift in Sources */,
+				43C3D4EE95F91653BA6EBDE8 /* LevelCatalogTests.swift in Sources */,
+				BA3DB5AB27CF580614C15945 /* PersistenceStoreTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1E0036A8C85483F13D323071 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4FA84BA6E3C2BA5236240B52 /* BreakTheQuietDays */;
+			targetProxy = D3759EF9BA0CFEB30B557DD9 /* PBXContainerItemProxy */;
+		};
+		8B2D5D9E04EBBCC5C4B98097 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4FA84BA6E3C2BA5236240B52 /* BreakTheQuietDays */;
+			targetProxy = FCCB8A27BBC8BC32A865B965 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2AD454ABA6E8791A96D1EAEB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.srimi.BreakTheQuietDaysUITests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = BreakTheQuietDays;
+			};
+			name = Release;
+		};
+		336386CE127C985E3422CCDF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 2;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Break the Quiet Days";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Original game by srimi";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		601943A61555C28A325B8DDB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.srimi.BreakTheQuietDays;
+				PRODUCT_MODULE_NAME = BreakTheQuietDays;
+				PRODUCT_NAME = "Break the Quiet Days";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		68E7CD5F6C24B2ECE054694D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 2;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Break the Quiet Days";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Original game by srimi";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		7EFCE310BCB609593858FCCD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.srimi.BreakTheQuietDays;
+				PRODUCT_MODULE_NAME = BreakTheQuietDays;
+				PRODUCT_NAME = "Break the Quiet Days";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		9E4AC1A66165A8BB3B40A56A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.srimi.BreakTheQuietDaysTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Break the Quiet Days.app/Contents/MacOS/Break the Quiet Days";
+			};
+			name = Release;
+		};
+		A4E696BBC7CF21BC95933710 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.srimi.BreakTheQuietDaysTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Break the Quiet Days.app/Contents/MacOS/Break the Quiet Days";
+			};
+			name = Debug;
+		};
+		E0215B8D05AB73C4F297F5BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.srimi.BreakTheQuietDaysUITests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = BreakTheQuietDays;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3BC248530C381A4891E8E2C6 /* Build configuration list for PBXNativeTarget "BreakTheQuietDaysTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A4E696BBC7CF21BC95933710 /* Debug */,
+				9E4AC1A66165A8BB3B40A56A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		530C148CE8CDA5A478D37CB3 /* Build configuration list for PBXNativeTarget "BreakTheQuietDaysUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E0215B8D05AB73C4F297F5BC /* Debug */,
+				2AD454ABA6E8791A96D1EAEB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D88624B1D5E847C9FFFC830A /* Build configuration list for PBXProject "BreakTheQuietDays" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				336386CE127C985E3422CCDF /* Debug */,
+				68E7CD5F6C24B2ECE054694D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F41F86A618E3C0365D2D5EC4 /* Build configuration list for PBXNativeTarget "BreakTheQuietDays" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				601943A61555C28A325B8DDB /* Debug */,
+				7EFCE310BCB609593858FCCD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C73FB9BD2F8BFCB8A160797D /* Project object */;
+}
