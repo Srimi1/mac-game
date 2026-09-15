@@ -36,3 +36,17 @@ The built-in OpenAI image generator also produced three transparent gameplay sou
 The optimized outputs ship as `NeonBrickRounded`, `NeonBrickCapsule`, `NeonBrickDiamond`, `NeonBrickHexagon`, `NeonBrickTriangle`, `NeonBrickObstacle`, `NeonBall`, and `NeonPaddle`. `Scripts/prepare_generated_gameplay_assets.swift` records the deterministic crop/downsample step used to create them from the generated source files.
 
 Brick skins receive restrained runtime tinting and geometry details by progression tier: clean glass for Days 1–2, reinforced faces for Days 3–4, circuit framing for Days 5–6, and armored/prismatic marks for Days 7–8. Room overlay variants alter detail direction and tint strength so sequential rooms retain their own identity.
+
+## Game logo
+
+`Brand/BreakTheQuietDaysLogo.png` is the text-free master logo generated with the built-in OpenAI image generator. The logo combines six neon blocks, a single arcade ball, a central break, and a sunrise-like trajectory. It uses the same near-black, cyan, magenta, violet, and restrained amber palette as the game. The 16–1024 px files in `AppIcon.appiconset` are deterministic downscales of this master.
+
+### Final logo prompt
+
+- Use case: `logo-brand`
+- Asset type: macOS game app icon and master game logo
+- Primary request: an original emblem for “Break the Quiet Days” using one luminous arcade ball breaking through a compact wall of geometric blocks, with its trajectory forming a rising-sun arc
+- Composition: square, centered, six large blocks in two columns, a bold central break, no more than three fracture fragments, generous safe margin, and a silhouette that remains legible at 16 px
+- Style: polished vector-friendly arcade mark with crisp geometry and restrained neon glow
+- Palette: near-black and deep violet, electric cyan, vivid magenta, and one restrained amber highlight
+- Constraints: no words, letters, numbers, typography, watermark, mockup, device frame, trademarks, tiny particles, or busy background

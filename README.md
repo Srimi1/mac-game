@@ -1,5 +1,9 @@
 # Break the Quiet Days
 
+<p align="center">
+  <img src="Brand/BreakTheQuietDaysLogo.png" width="220" alt="Break the Quiet Days neon ball-and-block logo">
+</p>
+
 A native, cozy-surreal Breakout game for Apple Silicon Macs. Restore color and music to 24 handcrafted rooms across eight quiet days.
 
 ## What is new in 1.1
@@ -15,10 +19,11 @@ A native, cozy-surreal Breakout game for Apple Silicon Macs. Restore color and m
 - Eight generated synthwave environment backdrops with a matching neon SwiftUI shell.
 - Optically balanced neon block geometry, richer offset formations, and indestructible cyan obstacles from Day 3 onward.
 - Generated skins for every brick silhouette, the energy ball, and the hover-launch paddle; canonical SpriteKit paths still own all collisions.
+- A dedicated ball, fractured-block, and sunrise emblem that remains readable from the 16 px Finder icon through the 1024 px master.
 
 ## Play
 
-Open `BreakTheQuietDays.xcodeproj` in Xcode and run the **BreakTheQuietDays** scheme. A signed arm64 build is also installed at `~/Applications/Break the Quiet Days.app`; the portable release archive is `dist/Break the Quiet Days 1.1.zip`.
+Open `BreakTheQuietDays.xcodeproj` in Xcode and run the **BreakTheQuietDays** scheme. A signed arm64 build is also installed at `~/Applications/Break the Quiet Days.app`.
 
 ### Controls
 
