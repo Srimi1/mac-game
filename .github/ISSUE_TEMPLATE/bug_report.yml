@@ -1,0 +1,40 @@
+name: Bug report
+description: Report a reproducible problem in the game.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for helping make Break the Quiet Days better.
+  - type: input
+    id: version
+    attributes:
+      label: Game version
+      placeholder: 1.2.0
+    validations:
+      required: true
+  - type: input
+    id: mac
+    attributes:
+      label: Mac and macOS version
+      placeholder: M2 MacBook Air, macOS 15.1
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description: Include the day, room, input method, and what happened.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots or recordings
+      description: Drag files here if they help explain the problem.

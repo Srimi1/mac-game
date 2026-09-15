@@ -1,0 +1,48 @@
+name: macOS CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-and-build:
+    runs-on: macos-15
+    timeout-minutes: 25
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.3.app/Contents/Developer
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Run unit and scene tests
+        run: |
+          xcodebuild \
+            -project BreakTheQuietDays.xcodeproj \
+            -scheme BreakTheQuietDays \
+            -configuration Debug \
+            -derivedDataPath DerivedData \
+            ARCHS="$(uname -m)" \
+            ONLY_ACTIVE_ARCH=YES \
+            -only-testing:BreakTheQuietDaysTests \
+            test
+
+      - name: Build Apple Silicon release
+        run: |
+          xcodebuild \
+            -project BreakTheQuietDays.xcodeproj \
+            -scheme BreakTheQuietDays \
+            -configuration Release \
+            -derivedDataPath ReleaseDerivedData \
+            ARCHS=arm64 \
+            ONLY_ACTIVE_ARCH=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            build

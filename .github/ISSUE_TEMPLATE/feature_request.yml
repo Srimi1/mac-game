@@ -1,0 +1,31 @@
+name: Feature request
+description: Suggest a focused gameplay, visual, or accessibility improvement.
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Player problem
+      description: What is difficult, unclear, or missing today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed improvement
+      description: Describe the experience rather than only the implementation.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Gameplay and physics
+        - Levels and progression
+        - Visuals and audio
+        - Controls and accessibility
+        - Distribution and tooling
+    validations:
+      required: true

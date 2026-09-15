@@ -1,0 +1,27 @@
+BREAK THE QUIET DAYS 1.2
+========================
+
+SYSTEM REQUIREMENTS
+Apple Silicon Mac (M1 or newer)
+macOS 14 Sonoma or later
+
+INSTALL
+1. Drag "Break the Quiet Days.app" into your Applications folder.
+2. The first time only, Control-click the app and choose Open.
+3. Confirm Open in the macOS dialog.
+
+WHY THE EXTRA FIRST-LAUNCH STEP?
+This free community build is ad-hoc signed but is not yet Apple-notarized.
+Control-clicking and choosing Open records your approval in macOS. Future
+launches work normally.
+
+CONTROLS
+Move: mouse/trackpad, A/D, or controller left stick
+Aim: drag from the waiting ball, Left/Right, or controller right stick
+Launch: release the drag, Space, or controller A
+Pause: Escape or controller Menu
+Full screen: Control-Command-F
+
+The game runs fully offline. It has no accounts, ads, analytics, or network use.
+
+Source and support: https://github.com/Srimi1/mac-game
