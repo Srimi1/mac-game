@@ -14,12 +14,12 @@ struct SettingsView: View {
                 SettingSlider(icon: "music.note", title: "Music", value: $session.settings.musicVolume)
                 SettingSlider(icon: "speaker.wave.2.fill", title: "Effects", value: $session.settings.effectsVolume)
                 Divider().overlay(.white.opacity(0.08))
-                SettingToggle(icon: "scope", title: "Aim guide", subtitle: "Show the launch direction", value: $session.settings.aimGuide)
+                SettingToggle(icon: "scope", title: "Trajectory Preview", subtitle: "Extend the adjustable neon launch arrow", value: $session.settings.aimGuide)
                 SettingToggle(icon: "figure.walk.motion", title: "Reduced motion", subtitle: "Remove shake and ambient drift", value: $session.settings.reducedMotion)
             }
             .padding(30)
-            .background(.white.opacity(0.06), in: RoundedRectangle(cornerRadius: 26))
-            .overlay(RoundedRectangle(cornerRadius: 26).stroke(.white.opacity(0.11)))
+            .background(NeonPalette.panel.opacity(0.82), in: RoundedRectangle(cornerRadius: 26))
+            .overlay(RoundedRectangle(cornerRadius: 26).stroke(NeonPalette.cyan.opacity(0.28)))
             .frame(maxWidth: 620)
 
             Text("Progress and settings stay on this Mac. The game never connects to the internet.")
@@ -40,12 +40,12 @@ private struct SettingSlider: View {
         HStack(spacing: 16) {
             Image(systemName: icon)
                 .frame(width: 28)
-                .foregroundStyle(Color(hex: 0xFFE0A8))
+                .foregroundStyle(NeonPalette.cyan)
             Text(title)
                 .font(.system(size: 16, weight: .bold, design: .rounded))
                 .frame(width: 90, alignment: .leading)
             Slider(value: $value, in: 0...1)
-                .tint(Color(hex: 0xF3A68A))
+                .tint(NeonPalette.magenta)
             Text("\(Int(value * 100))%")
                 .monospacedDigit()
                 .foregroundStyle(.white.opacity(0.55))
@@ -65,7 +65,7 @@ private struct SettingToggle: View {
             HStack(spacing: 16) {
                 Image(systemName: icon)
                     .frame(width: 28)
-                    .foregroundStyle(Color(hex: 0xA7D6C4))
+                    .foregroundStyle(NeonPalette.cyan)
                 VStack(alignment: .leading, spacing: 3) {
                     Text(title).font(.system(size: 16, weight: .bold, design: .rounded))
                     Text(subtitle).font(.caption).foregroundStyle(.white.opacity(0.45))
@@ -73,6 +73,6 @@ private struct SettingToggle: View {
             }
         }
         .toggleStyle(.switch)
-        .tint(Color(hex: 0xA7D6C4))
+        .tint(NeonPalette.magenta)
     }
 }

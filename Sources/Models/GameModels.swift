@@ -61,6 +61,44 @@ enum BrickAffinity: String, Codable, Equatable, Sendable {
     case sun
 }
 
+enum BrickRole: String, Codable, Equatable, Sendable {
+    case breakable
+    case obstacle
+}
+
+enum MotionAxis: String, Codable, Equatable, Sendable {
+    case horizontal
+    case vertical
+}
+
+struct MotionSpec: Codable, Hashable, Sendable {
+    let id: String
+    let axis: MotionAxis
+    let amplitude: Double
+    let duration: Double
+    let phase: Double
+}
+
+struct BrickPlacement: Codable, Identifiable, Hashable, Sendable {
+    let id: String
+    let centerX: Double
+    let centerY: Double
+    let width: Double
+    let height: Double
+    let rotationDegrees: Double
+    let shape: BrickShape
+    let role: BrickRole
+    let hitPoints: Int
+    let affinity: BrickAffinity
+    let motionGroup: String?
+}
+
+struct LevelLayout: Codable, Identifiable, Hashable, Sendable {
+    let id: String
+    let placements: [BrickPlacement]
+    let motions: [MotionSpec]
+}
+
 struct LevelDefinition: Codable, Identifiable, Hashable, Sendable {
     let id: String
     let day: Int
@@ -77,6 +115,8 @@ struct LevelDefinition: Codable, Identifiable, Hashable, Sendable {
     let yellowBrickRate: Double?
     let paddleScale: Double?
     let tripleEvery: Int?
+    let layoutID: String?
+    let overlayVariant: Int?
 
     var globalIndex: Int { (day - 1) * 3 + (stage - 1) }
     var brickShapes: [BrickShape] {
@@ -87,6 +127,8 @@ struct LevelDefinition: Codable, Identifiable, Hashable, Sendable {
     var sunBrickRate: Double { min(0.72, max(0, yellowBrickRate ?? 0)) }
     var resolvedPaddleScale: Double { min(1, max(0.76, paddleScale ?? 1)) }
     var resolvedTripleEvery: Int { max(0, tripleEvery ?? 0) }
+    var resolvedLayoutID: String { layoutID ?? id }
+    var resolvedOverlayVariant: Int { min(2, max(0, overlayVariant ?? stage - 1)) }
 
     var difficultyLabel: String {
         switch globalIndex {
@@ -105,6 +147,8 @@ struct DayTheme: Identifiable, Hashable, Sendable {
     let icon: String
     let colors: [Color]
     let brickColors: [Color]
+    let backdropAsset: String
+    let neonAccent: Color
 }
 
 struct GameHUDState: Equatable, Sendable {

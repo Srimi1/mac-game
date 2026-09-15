@@ -3,14 +3,14 @@ import SwiftUI
 
 enum LevelCatalog {
     static let days: [DayTheme] = [
-        DayTheme(id: 1, name: "Morning Room", subtitle: "Let the light back in", icon: "sun.horizon.fill", colors: [Color(hex: 0x30344F), Color(hex: 0xF0B88B)], brickColors: [Color(hex: 0xF6D6A8), Color(hex: 0xECA58B), Color(hex: 0xA7C9B8)]),
-        DayTheme(id: 2, name: "Rainy Window", subtitle: "Find rhythm in the rain", icon: "cloud.rain.fill", colors: [Color(hex: 0x273C50), Color(hex: 0x789EB0)], brickColors: [Color(hex: 0xA9D6D2), Color(hex: 0x7DB3C5), Color(hex: 0xD9C2E9)]),
-        DayTheme(id: 3, name: "Teacup Garden", subtitle: "Wake the sleeping leaves", icon: "leaf.fill", colors: [Color(hex: 0x33463D), Color(hex: 0xB6C989)], brickColors: [Color(hex: 0xB8D49A), Color(hex: 0xEBCB86), Color(hex: 0xD59B82)]),
-        DayTheme(id: 4, name: "Kite Sky", subtitle: "Untie the afternoon", icon: "wind", colors: [Color(hex: 0x354462), Color(hex: 0xA9C8E9)], brickColors: [Color(hex: 0xF4B6A7), Color(hex: 0xF6D589), Color(hex: 0x9FC9D8)]),
-        DayTheme(id: 5, name: "Lantern Evening", subtitle: "Carry a little glow", icon: "lamp.table.fill", colors: [Color(hex: 0x26233F), Color(hex: 0xA85F65)], brickColors: [Color(hex: 0xF09A70), Color(hex: 0xE9C46A), Color(hex: 0xC47A93)]),
-        DayTheme(id: 6, name: "Quiet Sunday", subtitle: "Break the old hush", icon: "moon.stars.fill", colors: [Color(hex: 0x211F39), Color(hex: 0x7B6D9D)], brickColors: [Color(hex: 0xF2C98A), Color(hex: 0xD694A5), Color(hex: 0x86B9AC)]),
-        DayTheme(id: 7, name: "Prism Workshop", subtitle: "Cut new shapes from light", icon: "hexagon.fill", colors: [Color(hex: 0x262451), Color(hex: 0xB44C87)], brickColors: [Color(hex: 0x67E8D2), Color(hex: 0xF06E9C), Color(hex: 0x8EA7FF)]),
-        DayTheme(id: 8, name: "Golden Hour", subtitle: "Make the whole sky answer", icon: "sun.max.fill", colors: [Color(hex: 0x44203F), Color(hex: 0xE06F4F)], brickColors: [Color(hex: 0xFFD447), Color(hex: 0xFF7F66), Color(hex: 0x7FE1C5)])
+        DayTheme(id: 1, name: "Morning Room", subtitle: "Let the light back in", icon: "sun.horizon.fill", colors: [Color(hex: 0x050713), Color(hex: 0x35105A)], brickColors: [Color(hex: 0x19E6FF), Color(hex: 0xFF37C7), Color(hex: 0xFF9A62)], backdropAsset: "NeonDay01", neonAccent: Color(hex: 0x19E6FF)),
+        DayTheme(id: 2, name: "Rainy Window", subtitle: "Find rhythm in the rain", icon: "cloud.rain.fill", colors: [Color(hex: 0x030815), Color(hex: 0x171E5D)], brickColors: [Color(hex: 0x39DFFF), Color(hex: 0xB75CFF), Color(hex: 0xFF3FBC)], backdropAsset: "NeonDay02", neonAccent: Color(hex: 0x39DFFF)),
+        DayTheme(id: 3, name: "Teacup Garden", subtitle: "Wake the sleeping leaves", icon: "leaf.fill", colors: [Color(hex: 0x030914), Color(hex: 0x241052)], brickColors: [Color(hex: 0x00F5D4), Color(hex: 0xFF3CCB), Color(hex: 0x8B7CFF)], backdropAsset: "NeonDay03", neonAccent: Color(hex: 0x00F5D4)),
+        DayTheme(id: 4, name: "Kite Sky", subtitle: "Untie the afternoon", icon: "wind", colors: [Color(hex: 0x040716), Color(hex: 0x26105C)], brickColors: [Color(hex: 0x1BE7FF), Color(hex: 0xFF39C6), Color(hex: 0x756CFF)], backdropAsset: "NeonDay04", neonAccent: Color(hex: 0x1BE7FF)),
+        DayTheme(id: 5, name: "Lantern Evening", subtitle: "Carry a little glow", icon: "lamp.table.fill", colors: [Color(hex: 0x080511), Color(hex: 0x3D0B50)], brickColors: [Color(hex: 0xFF43C0), Color(hex: 0xFFB13B), Color(hex: 0x20DBFF)], backdropAsset: "NeonDay05", neonAccent: Color(hex: 0xFF43C0)),
+        DayTheme(id: 6, name: "Quiet Sunday", subtitle: "Break the old hush", icon: "moon.stars.fill", colors: [Color(hex: 0x02050E), Color(hex: 0x171044)], brickColors: [Color(hex: 0x58E7FF), Color(hex: 0xC050FF), Color(hex: 0xFF4FC3)], backdropAsset: "NeonDay06", neonAccent: Color(hex: 0x58E7FF)),
+        DayTheme(id: 7, name: "Prism Workshop", subtitle: "Cut new shapes from light", icon: "hexagon.fill", colors: [Color(hex: 0x050411), Color(hex: 0x28105D)], brickColors: [Color(hex: 0x00F0FF), Color(hex: 0xFF35D3), Color(hex: 0x8C63FF)], backdropAsset: "NeonDay07", neonAccent: Color(hex: 0x00F0FF)),
+        DayTheme(id: 8, name: "Golden Hour", subtitle: "Make the whole sky answer", icon: "sun.max.fill", colors: [Color(hex: 0x08040D), Color(hex: 0x4A0D52)], brickColors: [Color(hex: 0xFFD447), Color(hex: 0xFF3EBA), Color(hex: 0x27E6FF)], backdropAsset: "NeonDay08", neonAccent: Color(hex: 0xFFD447))
     ]
 
     static let levels: [LevelDefinition] = loadLevels()

@@ -1,3 +1,4 @@
+import CoreGraphics
 import Foundation
 
 enum GameRules {
@@ -108,5 +109,214 @@ enum BrickPattern {
         default:
             return true
         }
+    }
+}
+
+enum LaunchAim {
+    static let maximumAngle = CGFloat.pi / 3
+    static let dragThreshold: CGFloat = 14
+    static let defaultAngle: CGFloat = 0.34
+
+    static func angle(from origin: CGPoint, to target: CGPoint) -> CGFloat {
+        let deltaX = target.x - origin.x
+        let deltaY = max(1, target.y - origin.y)
+        return min(maximumAngle, max(-maximumAngle, atan2(deltaX, deltaY)))
+    }
+
+    static func velocity(speed: CGFloat, angle: CGFloat) -> CGVector {
+        let clamped = min(maximumAngle, max(-maximumAngle, angle))
+        return CGVector(dx: speed * sin(clamped), dy: speed * cos(clamped))
+    }
+}
+
+enum BallPhysics {
+    static let minimumVerticalRatio: CGFloat = 0.28
+    static let maximumRoomIncrease: CGFloat = 0.14
+    static let maximumSpeed: CGFloat = 740
+    static let accelerationPerSecond: CGFloat = 26
+
+    static func progressiveSpeed(base: CGFloat, completion: Double) -> CGFloat {
+        let safeBase = max(1, base)
+        let progress = CGFloat(min(1, max(0, completion)))
+        return min(maximumSpeed, safeBase * (1 + maximumRoomIncrease * progress))
+    }
+
+    static func effectiveSpeed(base: CGFloat, completion: Double, slowed: Bool) -> CGFloat {
+        progressiveSpeed(base: base, completion: completion) * (slowed ? 0.72 : 1)
+    }
+
+    static func approach(_ current: CGFloat, target: CGFloat, deltaTime: TimeInterval) -> CGFloat {
+        let maximumChange = accelerationPerSecond * CGFloat(max(0, deltaTime))
+        if current < target { return min(target, current + maximumChange) }
+        return max(target, current - maximumChange)
+    }
+
+    static func normalizedVelocity(
+        _ velocity: CGVector,
+        speed: CGFloat,
+        minimumVerticalRatio: CGFloat = minimumVerticalRatio
+    ) -> CGVector {
+        let safeSpeed = min(maximumSpeed, max(1, speed))
+        guard velocity.dx.isFinite, velocity.dy.isFinite else {
+            return LaunchAim.velocity(speed: safeSpeed, angle: LaunchAim.defaultAngle)
+        }
+
+        let magnitude = hypot(velocity.dx, velocity.dy)
+        guard magnitude > 0.001 else {
+            return LaunchAim.velocity(speed: safeSpeed, angle: LaunchAim.defaultAngle)
+        }
+
+        var dx = velocity.dx / magnitude * safeSpeed
+        var dy = velocity.dy / magnitude * safeSpeed
+        let ratio = min(0.82, max(0.08, minimumVerticalRatio))
+        let minimumVertical = safeSpeed * ratio
+        if abs(dy) < minimumVertical {
+            dy = dy < 0 ? -minimumVertical : minimumVertical
+            let horizontal = sqrt(max(0, safeSpeed * safeSpeed - dy * dy))
+            dx = dx < 0 ? -horizontal : horizontal
+        }
+        return CGVector(dx: dx, dy: dy)
+    }
+
+    static func paddleBounce(offset: CGFloat, speed: CGFloat) -> CGVector {
+        let clampedOffset = min(1, max(-1, offset))
+        let angle = clampedOffset * (.pi * 0.34)
+        return normalizedVelocity(
+            CGVector(dx: sin(angle), dy: cos(angle)),
+            speed: speed
+        )
+    }
+}
+
+enum LevelLayoutFactory {
+    private static let sceneWidth = 1_200.0
+    private static let sceneHeight = 760.0
+
+    static func make(for level: LevelDefinition) -> LevelLayout {
+        let availableWidth = 1_040.0
+        let gap = 10.0
+        let baseWidth = (availableWidth - Double(level.columns - 1) * gap) / Double(level.columns)
+        let baseHeight = max(27, min(36, 246 / Double(level.rows)))
+        let startX = (sceneWidth - availableWidth) / 2 + baseWidth / 2
+        let startY = 620.0
+        let movingRows = Set(level.movingRows + extraMovingRows(for: level))
+        let coordinates = curatedCoordinates(for: level)
+        var placements: [BrickPlacement] = []
+        var playableIndex = 0
+
+        for (row, column) in coordinates {
+            let rowShift = rowOffset(level: level, row: row, cellWidth: baseWidth + gap)
+            let obstacle = shouldPlaceObstacle(level: level, row: row, column: column)
+            let triple = !obstacle && level.resolvedTripleEvery > 0 && playableIndex % level.resolvedTripleEvery == 0
+            let durable = !obstacle && level.durableEvery > 0 && playableIndex % level.durableEvery == 0
+            let hitPoints = obstacle ? 0 : (triple ? 3 : (durable ? 2 : 1))
+            let affinity: BrickAffinity = !obstacle && AffinityRules.shouldBeSunBrick(
+                index: playableIndex,
+                row: row,
+                column: column,
+                rate: level.sunBrickRate
+            ) ? .sun : .quiet
+            let shape = level.brickShapes[(row * 3 + column + playableIndex) % level.brickShapes.count]
+            let shapeScale = opticalScale(for: shape)
+            let centerX = startX + Double(column) * (baseWidth + gap) + rowShift
+            let centerY = startY - Double(row) * (baseHeight + gap)
+            let rotation = rotationDegrees(level: level, row: row, column: column, shape: shape)
+            let motionID = movingRows.contains(row) ? "row-\(row)" : nil
+
+            placements.append(BrickPlacement(
+                id: "\(level.resolvedLayoutID)-r\(row)-c\(column)",
+                centerX: centerX / sceneWidth,
+                centerY: centerY / sceneHeight,
+                width: baseWidth * shapeScale.width / sceneWidth,
+                height: baseHeight * shapeScale.height / sceneHeight,
+                rotationDegrees: rotation,
+                shape: obstacle ? .hexagon : shape,
+                role: obstacle ? .obstacle : .breakable,
+                hitPoints: hitPoints,
+                affinity: affinity,
+                motionGroup: motionID
+            ))
+            if !obstacle { playableIndex += 1 }
+        }
+
+        let motions = movingRows.sorted().map { row in
+            MotionSpec(
+                id: "row-\(row)",
+                axis: level.day >= 7 && row % 3 == 0 ? .vertical : .horizontal,
+                amplitude: row % 2 == 0 ? 22 : -22,
+                duration: 1.8 + Double(row % 3) * 0.34,
+                phase: Double(row % 4) * 0.16
+            )
+        }
+        return LevelLayout(id: level.resolvedLayoutID, placements: placements, motions: motions)
+    }
+
+    static func placementLimit(for level: LevelDefinition) -> Int {
+        switch level.day {
+        case 1: 52
+        case 2: 56
+        case 3: 58
+        case 4: 60
+        default: 64
+        }
+    }
+
+    private static func curatedCoordinates(for level: LevelDefinition) -> [(Int, Int)] {
+        var coordinates: [(Int, Int)] = []
+        for row in 0..<level.rows {
+            for column in 0..<level.columns where BrickPattern.contains(
+                level.pattern,
+                row: row,
+                column: column,
+                rows: level.rows,
+                columns: level.columns
+            ) {
+                coordinates.append((row, column))
+            }
+        }
+
+        let limit = placementLimit(for: level)
+        guard coordinates.count > limit, limit > 1 else { return coordinates }
+        let last = coordinates.count - 1
+        let selected = Set((0..<limit).map { sample in
+            Int((Double(sample) * Double(last) / Double(limit - 1)).rounded())
+        })
+        return coordinates.enumerated().compactMap { selected.contains($0.offset) ? $0.element : nil }
+    }
+
+    private static func rowOffset(level: LevelDefinition, row: Int, cellWidth: Double) -> Double {
+        guard level.stage > 1 else { return 0 }
+        let direction = (row + level.day + level.stage).isMultiple(of: 2) ? 1.0 : -1.0
+        let strength = level.stage == 2 ? 0.12 : 0.20
+        return direction * cellWidth * strength
+    }
+
+    private static func rotationDegrees(level: LevelDefinition, row: Int, column: Int, shape: BrickShape) -> Double {
+        guard level.day >= 3, shape != .capsule, shape != .rounded else { return 0 }
+        let bucket = (row * 7 + column * 11 + level.day) % 3
+        let direction = Double(bucket - 1)
+        let amount = level.day >= 7 ? 5.0 : 3.0
+        return direction * amount
+    }
+
+    private static func opticalScale(for shape: BrickShape) -> (width: Double, height: Double) {
+        switch shape {
+        case .rounded: (1, 1)
+        case .capsule: (0.96, 0.90)
+        case .diamond: (0.88, 0.94)
+        case .hexagon: (0.94, 0.96)
+        case .triangle: (0.82, 0.94)
+        }
+    }
+
+    private static func shouldPlaceObstacle(level: LevelDefinition, row: Int, column: Int) -> Bool {
+        guard level.day >= 3, row > 0, row < level.rows - 1 else { return false }
+        let cadence = level.day <= 4 ? 19 : (level.day <= 6 ? 15 : 12)
+        return (row * 13 + column * 7 + level.day * 5 + level.stage * 3) % cadence == 0
+    }
+
+    private static func extraMovingRows(for level: LevelDefinition) -> [Int] {
+        guard level.day >= 5, level.rows > 4 else { return [] }
+        return [(level.day + level.stage * 2) % (level.rows - 2) + 1]
     }
 }

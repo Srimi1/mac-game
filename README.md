@@ -9,6 +9,13 @@ A native, cozy-surreal Breakout game for Apple Silicon Macs. Restore color and m
 - **Six new rooms:** Prism Workshop and Golden Hour extend the campaign with tougher walls, faster balls, narrower paddles, and new formations.
 - **Clearer game UI:** level cards preview difficulty, available shapes, and Sunshift; the in-game HUD always names the active phase and remaining target family.
 
+## Neon-retro redesign
+
+- Adjustable launch aiming: drag from the waiting ball and release, use Left/Right before launch, or aim with a controller's right stick.
+- Eight generated synthwave environment backdrops with a matching neon SwiftUI shell.
+- Optically balanced neon block geometry, richer offset formations, and indestructible cyan obstacles from Day 3 onward.
+- Generated skins for every brick silhouette, the energy ball, and the hover-launch paddle; canonical SpriteKit paths still own all collisions.
+
 ## Play
 
 Open `BreakTheQuietDays.xcodeproj` in Xcode and run the **BreakTheQuietDays** scheme. A signed arm64 build is also installed at `~/Applications/Break the Quiet Days.app`; the portable release archive is `dist/Break the Quiet Days 1.1.zip`.
@@ -29,4 +36,4 @@ xcodegen generate
 xcodebuild -project BreakTheQuietDays.xcodeproj -scheme BreakTheQuietDays -configuration Release -derivedDataPath DerivedData build
 ```
 
-The game targets macOS 14+, stores progress locally in UserDefaults, and makes no network connections. Artwork and gameplay geometry are generated locally at runtime to keep the app small.
+The game targets macOS 14+, stores progress locally in UserDefaults, and makes no network connections. Bundled artwork is decorative; gameplay geometry is built natively at runtime.

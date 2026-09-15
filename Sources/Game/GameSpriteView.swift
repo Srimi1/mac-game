@@ -13,6 +13,9 @@ struct GameSpriteView: NSViewRepresentable {
 
     func makeNSView(context: Context) -> GameSKView {
         let view = GameSKView(frame: .zero)
+        view.setAccessibilityIdentifier("game-board")
+        view.setAccessibilityLabel("Neon game board")
+        view.setAccessibilityValue("Ball waiting")
         view.preferredFramesPerSecond = 60
         view.ignoresSiblingOrder = true
         view.shouldCullNonVisibleNodes = true
@@ -75,20 +78,37 @@ final class GameSKView: SKView {
     }
 
     override func mouseMoved(with event: NSEvent) { updatePaddle(with: event) }
-    override func mouseDragged(with event: NSEvent) { updatePaddle(with: event) }
+    override func mouseDragged(with event: NSEvent) {
+        guard let scene = scene as? GameScene else { return }
+        if scene.isBallWaiting {
+            scene.updateAim(to: scenePoint(for: event, in: scene))
+        } else {
+            updatePaddle(with: event)
+        }
+    }
 
     override func mouseDown(with event: NSEvent) {
-        updatePaddle(with: event)
-        (scene as? GameScene)?.launchBall()
+        guard let scene = scene as? GameScene else { return }
+        let point = scenePoint(for: event, in: scene)
+        if !scene.beginAim(at: point) { scene.movePaddle(to: point.x) }
+    }
+
+    override func mouseUp(with event: NSEvent) {
+        guard let scene = scene as? GameScene else { return }
+        scene.endAimAndLaunch(at: scenePoint(for: event, in: scene))
     }
 
     override func keyDown(with event: NSEvent) {
         guard let scene = scene as? GameScene else { return }
         switch event.keyCode {
-        case 0, 123:
+        case 0:
             scene.setKeyboardDirection(-1)
-        case 2, 124:
+        case 2:
             scene.setKeyboardDirection(1)
+        case 123:
+            scene.isBallWaiting ? scene.adjustAim(by: -0.065) : scene.setKeyboardDirection(-1)
+        case 124:
+            scene.isBallWaiting ? scene.adjustAim(by: 0.065) : scene.setKeyboardDirection(1)
         case 49:
             scene.launchBall()
         case 53:
@@ -113,9 +133,12 @@ final class GameSKView: SKView {
 
     private func updatePaddle(with event: NSEvent) {
         guard let scene = scene as? GameScene else { return }
+        scene.movePaddle(to: scenePoint(for: event, in: scene).x)
+    }
+
+    private func scenePoint(for event: NSEvent, in scene: GameScene) -> CGPoint {
         let viewPoint = convert(event.locationInWindow, from: nil)
-        let scenePoint = scene.convertPoint(fromView: viewPoint)
-        scene.movePaddle(to: scenePoint.x)
+        return scene.convertPoint(fromView: viewPoint)
     }
 
     @objc private func togglePauseFromNotification() {

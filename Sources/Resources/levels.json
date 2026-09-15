@@ -1,33 +1,612 @@
 [
-  {"id":"day1-1","day":1,"stage":1,"title":"First Light","pattern":"full","rows":4,"columns":9,"ballSpeed":430,"durableEvery":0,"movingRows":[],"powerUpRate":0.14,"shapeMix":["rounded"],"yellowBrickRate":0,"paddleScale":1.0,"tripleEvery":0},
-  {"id":"day1-2","day":1,"stage":2,"title":"Curtains Open","pattern":"checker","rows":5,"columns":10,"ballSpeed":445,"durableEvery":0,"movingRows":[],"powerUpRate":0.13,"shapeMix":["rounded","capsule"],"yellowBrickRate":0,"paddleScale":1.0,"tripleEvery":0},
-  {"id":"day1-3","day":1,"stage":3,"title":"Breakfast Glow","pattern":"pyramid","rows":6,"columns":11,"ballSpeed":460,"durableEvery":8,"movingRows":[],"powerUpRate":0.13,"shapeMix":["rounded","capsule"],"yellowBrickRate":0,"paddleScale":1.0,"tripleEvery":0},
-
-  {"id":"day2-1","day":2,"stage":1,"title":"Soft Drizzle","pattern":"waves","rows":5,"columns":10,"ballSpeed":468,"durableEvery":7,"movingRows":[],"powerUpRate":0.12,"shapeMix":["rounded","diamond"],"yellowBrickRate":0.18,"paddleScale":1.0,"tripleEvery":0},
-  {"id":"day2-2","day":2,"stage":2,"title":"Window Song","pattern":"frame","rows":6,"columns":11,"ballSpeed":480,"durableEvery":6,"movingRows":[2],"powerUpRate":0.12,"shapeMix":["capsule","diamond"],"yellowBrickRate":0.22,"paddleScale":0.98,"tripleEvery":0},
-  {"id":"day2-3","day":2,"stage":3,"title":"After Rain","pattern":"diamond","rows":7,"columns":11,"ballSpeed":492,"durableEvery":5,"movingRows":[3],"powerUpRate":0.11,"shapeMix":["rounded","diamond","hexagon"],"yellowBrickRate":0.24,"paddleScale":0.98,"tripleEvery":13},
-
-  {"id":"day3-1","day":3,"stage":1,"title":"Tiny Sprouts","pattern":"staircase","rows":6,"columns":11,"ballSpeed":498,"durableEvery":6,"movingRows":[],"powerUpRate":0.11,"shapeMix":["capsule","triangle"],"yellowBrickRate":0.24,"paddleScale":0.97,"tripleEvery":14},
-  {"id":"day3-2","day":3,"stage":2,"title":"Porcelain Vines","pattern":"garden","rows":7,"columns":12,"ballSpeed":510,"durableEvery":5,"movingRows":[1,4],"powerUpRate":0.11,"shapeMix":["rounded","hexagon","triangle"],"yellowBrickRate":0.28,"paddleScale":0.96,"tripleEvery":12},
-  {"id":"day3-3","day":3,"stage":3,"title":"Humming Leaves","pattern":"arches","rows":7,"columns":12,"ballSpeed":522,"durableEvery":4,"movingRows":[2,5],"powerUpRate":0.10,"shapeMix":["capsule","diamond","triangle"],"yellowBrickRate":0.30,"paddleScale":0.95,"tripleEvery":11},
-
-  {"id":"day4-1","day":4,"stage":1,"title":"Loose Thread","pattern":"chevrons","rows":7,"columns":12,"ballSpeed":528,"durableEvery":5,"movingRows":[2],"powerUpRate":0.10,"shapeMix":["diamond","hexagon"],"yellowBrickRate":0.30,"paddleScale":0.94,"tripleEvery":10},
-  {"id":"day4-2","day":4,"stage":2,"title":"Updraft","pattern":"islands","rows":7,"columns":12,"ballSpeed":540,"durableEvery":4,"movingRows":[1,4],"powerUpRate":0.10,"shapeMix":["rounded","triangle","hexagon"],"yellowBrickRate":0.33,"paddleScale":0.93,"tripleEvery":9},
-  {"id":"day4-3","day":4,"stage":3,"title":"Blue Above","pattern":"wings","rows":8,"columns":13,"ballSpeed":552,"durableEvery":4,"movingRows":[2,5],"powerUpRate":0.09,"shapeMix":["capsule","diamond","hexagon","triangle"],"yellowBrickRate":0.35,"paddleScale":0.92,"tripleEvery":8},
-
-  {"id":"day5-1","day":5,"stage":1,"title":"First Lantern","pattern":"columns","rows":7,"columns":12,"ballSpeed":558,"durableEvery":4,"movingRows":[3],"powerUpRate":0.09,"shapeMix":["rounded","hexagon"],"yellowBrickRate":0.34,"paddleScale":0.92,"tripleEvery":8},
-  {"id":"day5-2","day":5,"stage":2,"title":"Firefly Hour","pattern":"constellation","rows":8,"columns":13,"ballSpeed":570,"durableEvery":3,"movingRows":[1,5],"powerUpRate":0.09,"shapeMix":["capsule","diamond","triangle"],"yellowBrickRate":0.38,"paddleScale":0.91,"tripleEvery":7},
-  {"id":"day5-3","day":5,"stage":3,"title":"Warm Dark","pattern":"lantern","rows":8,"columns":13,"ballSpeed":582,"durableEvery":3,"movingRows":[2,6],"powerUpRate":0.08,"shapeMix":["rounded","diamond","hexagon","triangle"],"yellowBrickRate":0.40,"paddleScale":0.90,"tripleEvery":7},
-
-  {"id":"day6-1","day":6,"stage":1,"title":"Old Echoes","pattern":"spiral","rows":8,"columns":13,"ballSpeed":588,"durableEvery":3,"movingRows":[2,5],"powerUpRate":0.08,"shapeMix":["capsule","diamond","hexagon"],"yellowBrickRate":0.40,"paddleScale":0.90,"tripleEvery":7},
-  {"id":"day6-2","day":6,"stage":2,"title":"The Last Hush","pattern":"fortress","rows":8,"columns":13,"ballSpeed":598,"durableEvery":2,"movingRows":[1,4,7],"powerUpRate":0.08,"shapeMix":["rounded","triangle","hexagon"],"yellowBrickRate":0.43,"paddleScale":0.89,"tripleEvery":6},
-  {"id":"day6-3","day":6,"stage":3,"title":"Noisy Tomorrow","pattern":"finale","rows":9,"columns":14,"ballSpeed":608,"durableEvery":2,"movingRows":[2,5,8],"powerUpRate":0.09,"shapeMix":["rounded","capsule","diamond","hexagon","triangle"],"yellowBrickRate":0.45,"paddleScale":0.88,"tripleEvery":6},
-
-  {"id":"day7-1","day":7,"stage":1,"title":"Cut the Prism","pattern":"sunburst","rows":8,"columns":13,"ballSpeed":612,"durableEvery":2,"movingRows":[1,4],"powerUpRate":0.08,"shapeMix":["diamond","hexagon","triangle"],"yellowBrickRate":0.46,"paddleScale":0.88,"tripleEvery":6},
-  {"id":"day7-2","day":7,"stage":2,"title":"Glass Mosaic","pattern":"mosaic","rows":9,"columns":14,"ballSpeed":620,"durableEvery":2,"movingRows":[2,6],"powerUpRate":0.08,"shapeMix":["rounded","capsule","diamond","hexagon"],"yellowBrickRate":0.48,"paddleScale":0.87,"tripleEvery":5},
-  {"id":"day7-3","day":7,"stage":3,"title":"Bright Pressure","pattern":"hourglass","rows":9,"columns":14,"ballSpeed":628,"durableEvery":2,"movingRows":[1,4,7],"powerUpRate":0.07,"shapeMix":["capsule","diamond","hexagon","triangle"],"yellowBrickRate":0.50,"paddleScale":0.86,"tripleEvery":5},
-
-  {"id":"day8-1","day":8,"stage":1,"title":"Ribbon of Noon","pattern":"ribbons","rows":9,"columns":14,"ballSpeed":632,"durableEvery":2,"movingRows":[2,5,8],"powerUpRate":0.07,"shapeMix":["rounded","capsule","triangle"],"yellowBrickRate":0.52,"paddleScale":0.86,"tripleEvery":5},
-  {"id":"day8-2","day":8,"stage":2,"title":"Crown the Sky","pattern":"crown","rows":9,"columns":14,"ballSpeed":638,"durableEvery":2,"movingRows":[1,3,6],"powerUpRate":0.07,"shapeMix":["diamond","hexagon","triangle"],"yellowBrickRate":0.56,"paddleScale":0.84,"tripleEvery":4},
-  {"id":"day8-3","day":8,"stage":3,"title":"Everything Answers","pattern":"aurora","rows":9,"columns":14,"ballSpeed":646,"durableEvery":1,"movingRows":[1,4,7],"powerUpRate":0.08,"shapeMix":["rounded","capsule","diamond","hexagon","triangle"],"yellowBrickRate":0.60,"paddleScale":0.82,"tripleEvery":4}
+  {
+    "id": "day1-1",
+    "day": 1,
+    "stage": 1,
+    "title": "First Light",
+    "pattern": "full",
+    "rows": 4,
+    "columns": 9,
+    "ballSpeed": 430,
+    "durableEvery": 0,
+    "movingRows": [],
+    "powerUpRate": 0.14,
+    "shapeMix": [
+      "rounded"
+    ],
+    "yellowBrickRate": 0,
+    "paddleScale": 1,
+    "tripleEvery": 0,
+    "layoutID": "day1-1",
+    "overlayVariant": 0
+  },
+  {
+    "id": "day1-2",
+    "day": 1,
+    "stage": 2,
+    "title": "Curtains Open",
+    "pattern": "checker",
+    "rows": 5,
+    "columns": 10,
+    "ballSpeed": 445,
+    "durableEvery": 0,
+    "movingRows": [],
+    "powerUpRate": 0.13,
+    "shapeMix": [
+      "rounded",
+      "capsule"
+    ],
+    "yellowBrickRate": 0,
+    "paddleScale": 1,
+    "tripleEvery": 0,
+    "layoutID": "day1-2",
+    "overlayVariant": 1
+  },
+  {
+    "id": "day1-3",
+    "day": 1,
+    "stage": 3,
+    "title": "Breakfast Glow",
+    "pattern": "pyramid",
+    "rows": 6,
+    "columns": 11,
+    "ballSpeed": 460,
+    "durableEvery": 8,
+    "movingRows": [],
+    "powerUpRate": 0.13,
+    "shapeMix": [
+      "rounded",
+      "capsule"
+    ],
+    "yellowBrickRate": 0,
+    "paddleScale": 1,
+    "tripleEvery": 0,
+    "layoutID": "day1-3",
+    "overlayVariant": 2
+  },
+  {
+    "id": "day2-1",
+    "day": 2,
+    "stage": 1,
+    "title": "Soft Drizzle",
+    "pattern": "waves",
+    "rows": 5,
+    "columns": 10,
+    "ballSpeed": 468,
+    "durableEvery": 7,
+    "movingRows": [],
+    "powerUpRate": 0.12,
+    "shapeMix": [
+      "rounded",
+      "diamond"
+    ],
+    "yellowBrickRate": 0.18,
+    "paddleScale": 1,
+    "tripleEvery": 0,
+    "layoutID": "day2-1",
+    "overlayVariant": 0
+  },
+  {
+    "id": "day2-2",
+    "day": 2,
+    "stage": 2,
+    "title": "Window Song",
+    "pattern": "frame",
+    "rows": 6,
+    "columns": 11,
+    "ballSpeed": 480,
+    "durableEvery": 6,
+    "movingRows": [
+      2
+    ],
+    "powerUpRate": 0.12,
+    "shapeMix": [
+      "capsule",
+      "diamond"
+    ],
+    "yellowBrickRate": 0.22,
+    "paddleScale": 0.98,
+    "tripleEvery": 0,
+    "layoutID": "day2-2",
+    "overlayVariant": 1
+  },
+  {
+    "id": "day2-3",
+    "day": 2,
+    "stage": 3,
+    "title": "After Rain",
+    "pattern": "diamond",
+    "rows": 7,
+    "columns": 11,
+    "ballSpeed": 492,
+    "durableEvery": 5,
+    "movingRows": [
+      3
+    ],
+    "powerUpRate": 0.11,
+    "shapeMix": [
+      "rounded",
+      "diamond",
+      "hexagon"
+    ],
+    "yellowBrickRate": 0.24,
+    "paddleScale": 0.98,
+    "tripleEvery": 13,
+    "layoutID": "day2-3",
+    "overlayVariant": 2
+  },
+  {
+    "id": "day3-1",
+    "day": 3,
+    "stage": 1,
+    "title": "Tiny Sprouts",
+    "pattern": "staircase",
+    "rows": 6,
+    "columns": 11,
+    "ballSpeed": 498,
+    "durableEvery": 6,
+    "movingRows": [],
+    "powerUpRate": 0.11,
+    "shapeMix": [
+      "capsule",
+      "triangle"
+    ],
+    "yellowBrickRate": 0.24,
+    "paddleScale": 0.97,
+    "tripleEvery": 14,
+    "layoutID": "day3-1",
+    "overlayVariant": 0
+  },
+  {
+    "id": "day3-2",
+    "day": 3,
+    "stage": 2,
+    "title": "Porcelain Vines",
+    "pattern": "garden",
+    "rows": 7,
+    "columns": 12,
+    "ballSpeed": 510,
+    "durableEvery": 5,
+    "movingRows": [
+      1,
+      4
+    ],
+    "powerUpRate": 0.11,
+    "shapeMix": [
+      "rounded",
+      "hexagon",
+      "triangle"
+    ],
+    "yellowBrickRate": 0.28,
+    "paddleScale": 0.96,
+    "tripleEvery": 12,
+    "layoutID": "day3-2",
+    "overlayVariant": 1
+  },
+  {
+    "id": "day3-3",
+    "day": 3,
+    "stage": 3,
+    "title": "Humming Leaves",
+    "pattern": "arches",
+    "rows": 7,
+    "columns": 12,
+    "ballSpeed": 522,
+    "durableEvery": 4,
+    "movingRows": [
+      2,
+      5
+    ],
+    "powerUpRate": 0.1,
+    "shapeMix": [
+      "capsule",
+      "diamond",
+      "triangle"
+    ],
+    "yellowBrickRate": 0.3,
+    "paddleScale": 0.95,
+    "tripleEvery": 11,
+    "layoutID": "day3-3",
+    "overlayVariant": 2
+  },
+  {
+    "id": "day4-1",
+    "day": 4,
+    "stage": 1,
+    "title": "Loose Thread",
+    "pattern": "chevrons",
+    "rows": 7,
+    "columns": 12,
+    "ballSpeed": 528,
+    "durableEvery": 5,
+    "movingRows": [
+      2
+    ],
+    "powerUpRate": 0.1,
+    "shapeMix": [
+      "diamond",
+      "hexagon"
+    ],
+    "yellowBrickRate": 0.3,
+    "paddleScale": 0.94,
+    "tripleEvery": 10,
+    "layoutID": "day4-1",
+    "overlayVariant": 0
+  },
+  {
+    "id": "day4-2",
+    "day": 4,
+    "stage": 2,
+    "title": "Updraft",
+    "pattern": "islands",
+    "rows": 7,
+    "columns": 12,
+    "ballSpeed": 540,
+    "durableEvery": 4,
+    "movingRows": [
+      1,
+      4
+    ],
+    "powerUpRate": 0.1,
+    "shapeMix": [
+      "rounded",
+      "triangle",
+      "hexagon"
+    ],
+    "yellowBrickRate": 0.33,
+    "paddleScale": 0.93,
+    "tripleEvery": 9,
+    "layoutID": "day4-2",
+    "overlayVariant": 1
+  },
+  {
+    "id": "day4-3",
+    "day": 4,
+    "stage": 3,
+    "title": "Blue Above",
+    "pattern": "wings",
+    "rows": 8,
+    "columns": 13,
+    "ballSpeed": 552,
+    "durableEvery": 4,
+    "movingRows": [
+      2,
+      5
+    ],
+    "powerUpRate": 0.09,
+    "shapeMix": [
+      "capsule",
+      "diamond",
+      "hexagon",
+      "triangle"
+    ],
+    "yellowBrickRate": 0.35,
+    "paddleScale": 0.92,
+    "tripleEvery": 8,
+    "layoutID": "day4-3",
+    "overlayVariant": 2
+  },
+  {
+    "id": "day5-1",
+    "day": 5,
+    "stage": 1,
+    "title": "First Lantern",
+    "pattern": "columns",
+    "rows": 7,
+    "columns": 12,
+    "ballSpeed": 558,
+    "durableEvery": 4,
+    "movingRows": [
+      3
+    ],
+    "powerUpRate": 0.09,
+    "shapeMix": [
+      "rounded",
+      "hexagon"
+    ],
+    "yellowBrickRate": 0.34,
+    "paddleScale": 0.92,
+    "tripleEvery": 8,
+    "layoutID": "day5-1",
+    "overlayVariant": 0
+  },
+  {
+    "id": "day5-2",
+    "day": 5,
+    "stage": 2,
+    "title": "Firefly Hour",
+    "pattern": "constellation",
+    "rows": 8,
+    "columns": 13,
+    "ballSpeed": 570,
+    "durableEvery": 3,
+    "movingRows": [
+      1,
+      5
+    ],
+    "powerUpRate": 0.09,
+    "shapeMix": [
+      "capsule",
+      "diamond",
+      "triangle"
+    ],
+    "yellowBrickRate": 0.38,
+    "paddleScale": 0.91,
+    "tripleEvery": 7,
+    "layoutID": "day5-2",
+    "overlayVariant": 1
+  },
+  {
+    "id": "day5-3",
+    "day": 5,
+    "stage": 3,
+    "title": "Warm Dark",
+    "pattern": "lantern",
+    "rows": 8,
+    "columns": 13,
+    "ballSpeed": 582,
+    "durableEvery": 3,
+    "movingRows": [
+      2,
+      6
+    ],
+    "powerUpRate": 0.08,
+    "shapeMix": [
+      "rounded",
+      "diamond",
+      "hexagon",
+      "triangle"
+    ],
+    "yellowBrickRate": 0.4,
+    "paddleScale": 0.9,
+    "tripleEvery": 7,
+    "layoutID": "day5-3",
+    "overlayVariant": 2
+  },
+  {
+    "id": "day6-1",
+    "day": 6,
+    "stage": 1,
+    "title": "Old Echoes",
+    "pattern": "spiral",
+    "rows": 8,
+    "columns": 13,
+    "ballSpeed": 588,
+    "durableEvery": 3,
+    "movingRows": [
+      2,
+      5
+    ],
+    "powerUpRate": 0.08,
+    "shapeMix": [
+      "capsule",
+      "diamond",
+      "hexagon"
+    ],
+    "yellowBrickRate": 0.4,
+    "paddleScale": 0.9,
+    "tripleEvery": 7,
+    "layoutID": "day6-1",
+    "overlayVariant": 0
+  },
+  {
+    "id": "day6-2",
+    "day": 6,
+    "stage": 2,
+    "title": "The Last Hush",
+    "pattern": "fortress",
+    "rows": 8,
+    "columns": 13,
+    "ballSpeed": 598,
+    "durableEvery": 2,
+    "movingRows": [
+      1,
+      4,
+      7
+    ],
+    "powerUpRate": 0.08,
+    "shapeMix": [
+      "rounded",
+      "triangle",
+      "hexagon"
+    ],
+    "yellowBrickRate": 0.43,
+    "paddleScale": 0.89,
+    "tripleEvery": 6,
+    "layoutID": "day6-2",
+    "overlayVariant": 1
+  },
+  {
+    "id": "day6-3",
+    "day": 6,
+    "stage": 3,
+    "title": "Noisy Tomorrow",
+    "pattern": "finale",
+    "rows": 9,
+    "columns": 14,
+    "ballSpeed": 608,
+    "durableEvery": 2,
+    "movingRows": [
+      2,
+      5,
+      8
+    ],
+    "powerUpRate": 0.09,
+    "shapeMix": [
+      "rounded",
+      "capsule",
+      "diamond",
+      "hexagon",
+      "triangle"
+    ],
+    "yellowBrickRate": 0.45,
+    "paddleScale": 0.88,
+    "tripleEvery": 6,
+    "layoutID": "day6-3",
+    "overlayVariant": 2
+  },
+  {
+    "id": "day7-1",
+    "day": 7,
+    "stage": 1,
+    "title": "Cut the Prism",
+    "pattern": "sunburst",
+    "rows": 8,
+    "columns": 13,
+    "ballSpeed": 612,
+    "durableEvery": 2,
+    "movingRows": [
+      1,
+      4
+    ],
+    "powerUpRate": 0.08,
+    "shapeMix": [
+      "diamond",
+      "hexagon",
+      "triangle"
+    ],
+    "yellowBrickRate": 0.46,
+    "paddleScale": 0.88,
+    "tripleEvery": 6,
+    "layoutID": "day7-1",
+    "overlayVariant": 0
+  },
+  {
+    "id": "day7-2",
+    "day": 7,
+    "stage": 2,
+    "title": "Glass Mosaic",
+    "pattern": "mosaic",
+    "rows": 9,
+    "columns": 14,
+    "ballSpeed": 620,
+    "durableEvery": 2,
+    "movingRows": [
+      2,
+      6
+    ],
+    "powerUpRate": 0.08,
+    "shapeMix": [
+      "rounded",
+      "capsule",
+      "diamond",
+      "hexagon"
+    ],
+    "yellowBrickRate": 0.48,
+    "paddleScale": 0.87,
+    "tripleEvery": 5,
+    "layoutID": "day7-2",
+    "overlayVariant": 1
+  },
+  {
+    "id": "day7-3",
+    "day": 7,
+    "stage": 3,
+    "title": "Bright Pressure",
+    "pattern": "hourglass",
+    "rows": 9,
+    "columns": 14,
+    "ballSpeed": 628,
+    "durableEvery": 2,
+    "movingRows": [
+      1,
+      4,
+      7
+    ],
+    "powerUpRate": 0.07,
+    "shapeMix": [
+      "capsule",
+      "diamond",
+      "hexagon",
+      "triangle"
+    ],
+    "yellowBrickRate": 0.5,
+    "paddleScale": 0.86,
+    "tripleEvery": 5,
+    "layoutID": "day7-3",
+    "overlayVariant": 2
+  },
+  {
+    "id": "day8-1",
+    "day": 8,
+    "stage": 1,
+    "title": "Ribbon of Noon",
+    "pattern": "ribbons",
+    "rows": 9,
+    "columns": 14,
+    "ballSpeed": 632,
+    "durableEvery": 2,
+    "movingRows": [
+      2,
+      5,
+      8
+    ],
+    "powerUpRate": 0.07,
+    "shapeMix": [
+      "rounded",
+      "capsule",
+      "triangle"
+    ],
+    "yellowBrickRate": 0.52,
+    "paddleScale": 0.86,
+    "tripleEvery": 5,
+    "layoutID": "day8-1",
+    "overlayVariant": 0
+  },
+  {
+    "id": "day8-2",
+    "day": 8,
+    "stage": 2,
+    "title": "Crown the Sky",
+    "pattern": "crown",
+    "rows": 9,
+    "columns": 14,
+    "ballSpeed": 638,
+    "durableEvery": 2,
+    "movingRows": [
+      1,
+      3,
+      6
+    ],
+    "powerUpRate": 0.07,
+    "shapeMix": [
+      "diamond",
+      "hexagon",
+      "triangle"
+    ],
+    "yellowBrickRate": 0.56,
+    "paddleScale": 0.84,
+    "tripleEvery": 4,
+    "layoutID": "day8-2",
+    "overlayVariant": 1
+  },
+  {
+    "id": "day8-3",
+    "day": 8,
+    "stage": 3,
+    "title": "Everything Answers",
+    "pattern": "aurora",
+    "rows": 9,
+    "columns": 14,
+    "ballSpeed": 646,
+    "durableEvery": 1,
+    "movingRows": [
+      1,
+      4,
+      7
+    ],
+    "powerUpRate": 0.08,
+    "shapeMix": [
+      "rounded",
+      "capsule",
+      "diamond",
+      "hexagon",
+      "triangle"
+    ],
+    "yellowBrickRate": 0.6,
+    "paddleScale": 0.82,
+    "tripleEvery": 4,
+    "layoutID": "day8-3",
+    "overlayVariant": 2
+  }
 ]

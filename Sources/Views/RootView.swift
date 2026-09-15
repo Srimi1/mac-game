@@ -41,26 +41,30 @@ struct DreamBackground: View {
     let reducedMotion: Bool
 
     var body: some View {
-        TimelineView(.animation(minimumInterval: reducedMotion ? 1 : 1 / 30)) { timeline in
-            Canvas { context, size in
-                let time = reducedMotion ? 0 : timeline.date.timeIntervalSinceReferenceDate
-                let bounds = CGRect(origin: .zero, size: size)
-                context.fill(
-                    Path(bounds),
-                    with: .linearGradient(
-                        Gradient(colors: [Color(hex: 0x15152A), Color(hex: 0x2A2848), Color(hex: 0x3B3150)]),
-                        startPoint: .zero,
-                        endPoint: CGPoint(x: size.width, y: size.height)
-                    )
-                )
+        ZStack {
+            Image("NeonMenu")
+                .resizable()
+                .scaledToFill()
+                .overlay(Color(hex: 0x02040D).opacity(0.34))
 
-                for index in 0..<12 {
-                    let phase = Double(index) * 0.73
-                    let x = (sin(time * 0.06 + phase) * 0.12 + Double(index % 4) / 3.0) * size.width
-                    let y = (cos(time * 0.05 + phase) * 0.10 + Double(index / 4) / 2.0) * size.height
-                    let radius = 70 + CGFloat(index % 3) * 35
-                    let circle = Path(ellipseIn: CGRect(x: x - radius, y: y - radius, width: radius * 2, height: radius * 2))
-                    context.fill(circle, with: .color([Color.orange, Color.mint, Color.pink][index % 3].opacity(0.035)))
+            TimelineView(.animation(minimumInterval: reducedMotion ? 1 : 1 / 30)) { timeline in
+                Canvas { context, size in
+                    let time = reducedMotion ? 0 : timeline.date.timeIntervalSinceReferenceDate
+                    let bounds = CGRect(origin: .zero, size: size)
+                    context.fill(Path(bounds), with: .linearGradient(
+                        Gradient(colors: [.clear, Color(hex: 0x0A0520).opacity(0.62)]),
+                        startPoint: CGPoint(x: size.width / 2, y: 0),
+                        endPoint: CGPoint(x: size.width / 2, y: size.height)
+                    ))
+
+                    for index in 0..<10 {
+                        let phase = Double(index) * 0.81
+                        let x = (sin(time * 0.10 + phase) * 0.08 + Double(index % 5) / 4.0) * size.width
+                        let y = (cos(time * 0.08 + phase) * 0.06 + Double(index / 5) * 0.75) * size.height
+                        let radius: CGFloat = 2 + CGFloat(index % 3)
+                        let circle = Path(ellipseIn: CGRect(x: x - radius, y: y - radius, width: radius * 2, height: radius * 2))
+                        context.fill(circle, with: .color([NeonPalette.cyan, NeonPalette.magenta][index % 2].opacity(0.55)))
+                    }
                 }
             }
         }

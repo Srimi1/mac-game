@@ -28,4 +28,14 @@ final class LevelCatalogTests: XCTestCase {
         XCTAssertGreaterThan(LevelCatalog.levels.last!.ballSpeed, LevelCatalog.levels.first!.ballSpeed)
         XCTAssertGreaterThan(LevelCatalog.levels.last!.resolvedTripleEvery, 0)
     }
+
+    func testEveryRoomStartsFasterThanThePreviousRoom() {
+        for (current, next) in zip(LevelCatalog.levels, LevelCatalog.levels.dropFirst()) {
+            XCTAssertGreaterThan(
+                next.ballSpeed,
+                current.ballSpeed,
+                "Expected \(next.id) to start faster than \(current.id)"
+            )
+        }
+    }
 }

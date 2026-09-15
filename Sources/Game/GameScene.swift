@@ -12,12 +12,17 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
 
     private let worldNode = SKNode()
     private let paddle = SKShapeNode(rectOf: CGSize(width: 178, height: 24), cornerRadius: 12)
+    private let paddleSkin = SKSpriteNode(imageNamed: "NeonPaddle")
     private let colorWash = SKShapeNode(rectOf: CGSize(width: 1400, height: 900))
     private let aimGuide = SKShapeNode()
     private let cameraNode = SKCameraNode()
     private var hud = GameHUDState()
     private var keyboardDirection: CGFloat = 0
     private var ballIsWaiting = true
+    private var isAiming = false
+    private var aimOrigin = CGPoint.zero
+    private var aimDragDistance: CGFloat = 0
+    private var launchAngle = LaunchAim.defaultAngle
     private var desiredBallSpeed: CGFloat
     private var baseBallSpeed: CGFloat
     private var bestCombo = 0
@@ -37,6 +42,11 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
         worldNode.enumerateChildNodes(withName: "//brick") { _, _ in count += 1 }
         return count
     }
+    var testingObstacleCount: Int {
+        var count = 0
+        worldNode.enumerateChildNodes(withName: "//obstacle") { _, _ in count += 1 }
+        return count
+    }
     var testingPaddleX: CGFloat { paddle.position.x }
     var testingBallVelocity: CGVector? { activeBalls().first?.physicsBody?.velocity }
     var testingBallCollisionMask: UInt32? { activeBalls().first?.physicsBody?.collisionBitMask }
@@ -44,6 +54,19 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
     var testingSunBrickCount: Int { hud.sunBricksRemaining }
     var testingQuietBrickCount: Int { hud.quietBricksRemaining }
     var testingBallMode: BallMode { hud.ballMode }
+    var testingLaunchAngle: CGFloat { launchAngle }
+    var testingDesiredBallSpeed: CGFloat { desiredBallSpeed }
+    var testingTargetBallSpeed: CGFloat { targetBallSpeed }
+    var isBallWaiting: Bool { ballIsWaiting }
+    var testingPaddleHasArtwork: Bool { paddle.childNode(withName: "paddle-skin") != nil }
+    var testingBallHasArtwork: Bool { activeBalls().first?.childNode(withName: "ball-artwork") != nil }
+    var testingBrickVisualTiers: Set<Int> {
+        var tiers: Set<Int> = []
+        worldNode.enumerateChildNodes(withName: "//brick") { node, _ in
+            if let brick = node as? BrickNode { tiers.insert(brick.visualTier) }
+        }
+        return tiers
+    }
     var testingShapeKinds: Set<BrickShape> {
         var shapes: Set<BrickShape> = []
         worldNode.enumerateChildNodes(withName: "//brick") { node, _ in
@@ -64,6 +87,7 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
         super.init(size: CGSize(width: 1200, height: 760))
         scaleMode = .aspectFill
         anchorPoint = .zero
+        worldNode.isAccessibilityElement = false
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -114,9 +138,50 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
         guard !isPaused, ballIsWaiting, !isFinishing,
               let ball = worldNode.childNode(withName: "//ball") else { return }
         ballIsWaiting = false
+        isAiming = false
         aimGuide.isHidden = true
-        ball.physicsBody?.velocity = CGVector(dx: desiredBallSpeed * 0.42, dy: desiredBallSpeed * 0.91)
+        setPaddleAiming(false)
+        ball.physicsBody?.velocity = LaunchAim.velocity(speed: desiredBallSpeed, angle: launchAngle)
+        paddleSkin.run(.sequence([.fadeAlpha(to: 1, duration: 0.04), .fadeAlpha(to: 0.88, duration: 0.18)]))
+        view?.setAccessibilityValue("Ball launched")
         sound.playPaddle(offset: 0)
+    }
+
+    @discardableResult
+    func beginAim(at point: CGPoint) -> Bool {
+        guard !isPaused, ballIsWaiting, !isFinishing,
+              let ball = worldNode.childNode(withName: "//ball"),
+              hypot(point.x - ball.position.x, point.y - ball.position.y) <= 58 else { return false }
+        isAiming = true
+        aimOrigin = ball.position
+        aimDragDistance = 0
+        setPaddleAiming(true)
+        updateAimGuide()
+        return true
+    }
+
+    func updateAim(to point: CGPoint) {
+        guard isAiming, ballIsWaiting else { return }
+        aimDragDistance = hypot(point.x - aimOrigin.x, point.y - aimOrigin.y)
+        launchAngle = LaunchAim.angle(from: aimOrigin, to: point)
+        updateAimGuide()
+    }
+
+    func endAimAndLaunch(at point: CGPoint) {
+        guard isAiming else { return }
+        updateAim(to: point)
+        let shouldLaunch = aimDragDistance >= LaunchAim.dragThreshold
+        isAiming = false
+        if shouldLaunch { launchBall() } else {
+            setPaddleAiming(false)
+            updateAimGuide()
+        }
+    }
+
+    func adjustAim(by delta: CGFloat) {
+        guard ballIsWaiting, !isPaused, !isFinishing else { return }
+        launchAngle = min(LaunchAim.maximumAngle, max(-LaunchAim.maximumAngle, launchAngle + delta))
+        updateAimGuide()
     }
 
     func togglePause() {
@@ -141,6 +206,11 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
         }
 
         if let gamepad = GCController.controllers().first?.extendedGamepad {
+            let aimDirection = CGFloat(gamepad.rightThumbstick.xAxis.value)
+            if ballIsWaiting, abs(aimDirection) > 0.14 {
+                launchAngle = aimDirection * LaunchAim.maximumAngle
+                updateAimGuide()
+            }
             if gamepad.buttonA.isPressed, ballIsWaiting { launchBall() }
             let menuPressed = gamepad.buttonMenu.isPressed
             if menuPressed && !controllerMenuWasPressed { togglePause() }
@@ -148,6 +218,7 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
         }
 
         expirePowerUps(at: currentTime)
+        advanceBallSpeed(deltaTime: delta)
         normalizeBallVelocities()
 
         ambientTime += delta
@@ -184,26 +255,51 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
             collect(powerUp)
         } else if categories == PhysicsCategory.powerUp | PhysicsCategory.bottom {
             ((first as? PowerUpNode) ?? (second as? PowerUpNode))?.removeFromParent()
+        } else if categories == PhysicsCategory.ball | PhysicsCategory.obstacle {
+            impact(at: contact.contactPoint, color: NSColor(calibratedRed: 0.10, green: 0.88, blue: 1, alpha: 1))
         }
     }
 
     private func buildBackground() {
-        colorWash.fillColor = NSColor(theme.colors[1]).withAlphaComponent(0.20)
+        let backdrop = SKSpriteNode(texture: SKTexture(imageNamed: theme.backdropAsset))
+        backdrop.isAccessibilityElement = false
+        backdrop.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        backdrop.size = size
+        backdrop.alpha = 0.62 + CGFloat(level.resolvedOverlayVariant) * 0.06
+        backdrop.zPosition = -120
+        worldNode.addChild(backdrop)
+
+        colorWash.fillColor = NSColor(calibratedRed: 0.015, green: 0.02, blue: 0.075, alpha: 0.38 - CGFloat(level.resolvedOverlayVariant) * 0.05)
+        colorWash.isAccessibilityElement = false
         colorWash.strokeColor = .clear
         colorWash.position = CGPoint(x: size.width / 2, y: size.height / 2)
-        colorWash.zPosition = -90
+        colorWash.zPosition = -110
         worldNode.addChild(colorWash)
 
-        for index in 0..<11 {
-            let radius = CGFloat(22 + (index % 4) * 16)
-            let mote = SKShapeNode(circleOfRadius: radius)
-            mote.fillColor = NSColor(theme.brickColors[index % theme.brickColors.count]).withAlphaComponent(0.055)
+        let grid = SKNode()
+        grid.isAccessibilityElement = false
+        grid.zPosition = -100
+        for index in 0..<13 {
+            let line = SKShapeNode(rectOf: CGSize(width: size.width, height: 1))
+            line.isAccessibilityElement = false
+            line.fillColor = NSColor(theme.neonAccent).withAlphaComponent(0.025 + CGFloat(level.resolvedOverlayVariant) * 0.008)
+            line.strokeColor = .clear
+            line.position = CGPoint(x: size.width / 2, y: 48 + CGFloat(index) * 56)
+            grid.addChild(line)
+        }
+        worldNode.addChild(grid)
+
+        for index in 0..<14 {
+            let mote = SKShapeNode(circleOfRadius: CGFloat(2 + index % 3))
+            mote.isAccessibilityElement = false
+            mote.fillColor = NSColor(theme.brickColors[index % theme.brickColors.count]).withAlphaComponent(0.22)
             mote.strokeColor = .clear
-            mote.position = CGPoint(x: 70 + CGFloat((index * 127) % 1080), y: 90 + CGFloat((index * 83) % 590))
+            mote.glowWidth = 5
+            mote.position = CGPoint(x: 55 + CGFloat((index * 137) % 1090), y: 88 + CGFloat((index * 97) % 570))
             mote.zPosition = -80
             worldNode.addChild(mote)
             if !settings.reducedMotion {
-                let drift = SKAction.moveBy(x: CGFloat((index % 3) - 1) * 26, y: CGFloat(index % 2 == 0 ? 18 : -18), duration: 4.5 + Double(index % 3))
+                let drift = SKAction.moveBy(x: CGFloat((index % 3) - 1) * 18, y: CGFloat(index % 2 == 0 ? 12 : -12), duration: 4.5 + Double(index % 3))
                 drift.timingMode = .easeInEaseOut
                 mote.run(.repeatForever(.sequence([drift, drift.reversed()])))
             }
@@ -238,14 +334,15 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
     }
 
     private func buildPaddle() {
-        paddle.fillColor = NSColor(calibratedRed: 0.96, green: 0.90, blue: 0.82, alpha: 1)
-        paddle.strokeColor = NSColor(theme.brickColors[1])
-        paddle.lineWidth = 3
-        paddle.glowWidth = 5
+        paddle.fillColor = NSColor(calibratedRed: 0.018, green: 0.025, blue: 0.07, alpha: 0.68)
+        paddle.strokeColor = NSColor(theme.neonAccent).withAlphaComponent(0.42)
+        paddle.lineWidth = 1.4
+        paddle.glowWidth = 7
         paddle.position = CGPoint(x: size.width / 2, y: 74)
         paddle.xScale = CGFloat(level.resolvedPaddleScale)
         paddle.zPosition = 10
         paddle.name = "paddle"
+        paddle.isAccessibilityElement = false
         paddle.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 174, height: 22))
         paddle.physicsBody?.isDynamic = false
         paddle.physicsBody?.categoryBitMask = PhysicsCategory.paddle
@@ -253,63 +350,71 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
         paddle.physicsBody?.contactTestBitMask = PhysicsCategory.ball | PhysicsCategory.powerUp
         paddle.physicsBody?.friction = 0
         paddle.physicsBody?.restitution = 1
+        paddleSkin.name = "paddle-skin"
+        paddleSkin.isAccessibilityElement = false
+        paddleSkin.size = CGSize(width: 202, height: 34)
+        paddleSkin.alpha = 0.88
+        paddleSkin.color = NSColor(theme.neonAccent)
+        paddleSkin.colorBlendFactor = CGFloat(level.resolvedOverlayVariant) * 0.06
+        paddleSkin.zPosition = 1
+        paddle.addChild(paddleSkin)
+
+        let cradle = SKShapeNode(circleOfRadius: 15)
+        cradle.name = "launch-cradle"
+        cradle.isAccessibilityElement = false
+        cradle.position.y = 16
+        cradle.fillColor = .clear
+        cradle.strokeColor = NSColor(theme.neonAccent).withAlphaComponent(0.52)
+        cradle.lineWidth = 1.2
+        cradle.glowWidth = 5
+        cradle.zPosition = 0
+        paddle.addChild(cradle)
         worldNode.addChild(paddle)
     }
 
     private func buildBricks() {
-        let availableWidth: CGFloat = 1050
-        let gap: CGFloat = 9
-        let brickWidth = (availableWidth - CGFloat(level.columns - 1) * gap) / CGFloat(level.columns)
-        let brickHeight: CGFloat = max(28, min(38, 255 / CGFloat(level.rows)))
-        let startX = (size.width - availableWidth) / 2 + brickWidth / 2
-        let startY: CGFloat = 625
-        var placed = 0
+        let layout = LevelLayoutFactory.make(for: level)
         var quietPlaced = 0
         var sunPlaced = 0
+        var containers: [String: SKNode] = [:]
 
-        for row in 0..<level.rows {
-            let rowNode = SKNode()
-            rowNode.name = "brick-row-\(row)"
-            rowNode.zPosition = 2
-            worldNode.addChild(rowNode)
-
-            for column in 0..<level.columns where BrickPattern.contains(level.pattern, row: row, column: column, rows: level.rows, columns: level.columns) {
-                let durable = level.durableEvery > 0 && placed % level.durableEvery == 0
-                let extraTough = level.resolvedTripleEvery > 0 && placed % level.resolvedTripleEvery == 0
-                let hits = extraTough ? 3 : (durable ? 2 : 1)
-                let color = NSColor(theme.brickColors[(row + column) % theme.brickColors.count])
-                let affinity: BrickAffinity = AffinityRules.shouldBeSunBrick(
-                    index: placed,
-                    row: row,
-                    column: column,
-                    rate: level.sunBrickRate
-                ) ? .sun : .quiet
-                let shapes = level.brickShapes
-                let shape = shapes[(row * 3 + column + placed) % shapes.count]
-                let brick = BrickNode(
-                    size: CGSize(width: brickWidth, height: brickHeight),
-                    color: color,
-                    hitPoints: hits,
-                    shape: shape,
-                    affinity: affinity
-                )
-                brick.position = CGPoint(x: startX + CGFloat(column) * (brickWidth + gap), y: startY - CGFloat(row) * (brickHeight + gap))
-                brick.alpha = affinity == .sun ? 0.40 : 0.84
-                rowNode.addChild(brick)
-                if affinity == .sun { sunPlaced += 1 } else { quietPlaced += 1 }
-                placed += 1
-            }
-
-            if level.movingRows.contains(row), !settings.reducedMotion {
-                let distance: CGFloat = row % 2 == 0 ? 24 : -24
-                let move = SKAction.moveBy(x: distance, y: 0, duration: 1.8 + Double(row % 3) * 0.35)
-                move.timingMode = .easeInEaseOut
-                rowNode.run(.repeatForever(.sequence([move, move.reversed()])))
-            }
+        for motion in layout.motions {
+            let node = SKNode()
+            node.name = "motion-\(motion.id)"
+            node.zPosition = 2
+            worldNode.addChild(node)
+            containers[motion.id] = node
+            guard !settings.reducedMotion else { continue }
+            let vector = motion.axis == .horizontal
+                ? CGVector(dx: motion.amplitude, dy: 0)
+                : CGVector(dx: 0, dy: motion.amplitude)
+            let move = SKAction.moveBy(x: vector.dx, y: vector.dy, duration: motion.duration)
+            move.timingMode = .easeInEaseOut
+            node.run(.sequence([.wait(forDuration: motion.phase), .repeatForever(.sequence([move, move.reversed()]))]))
         }
 
-        hud.totalBricks = placed
-        hud.bricksRemaining = placed
+        for (index, placement) in layout.placements.enumerated() {
+            let color = NSColor(theme.brickColors[index % theme.brickColors.count])
+            let brick = BrickNode(
+                size: CGSize(width: placement.width * size.width, height: placement.height * size.height),
+                color: color,
+                hitPoints: placement.hitPoints,
+                shape: placement.shape,
+                affinity: placement.affinity,
+                role: placement.role,
+                visualTier: (level.day - 1) / 2,
+                roomVariant: level.resolvedOverlayVariant
+            )
+            brick.position = CGPoint(x: placement.centerX * size.width, y: placement.centerY * size.height)
+            brick.zRotation = placement.rotationDegrees * .pi / 180
+            brick.alpha = placement.role == .obstacle ? 0.96 : (placement.affinity == .sun ? 0.48 : 0.94)
+            (placement.motionGroup.flatMap { containers[$0] } ?? worldNode).addChild(brick)
+            guard placement.role == .breakable else { continue }
+            if placement.affinity == .sun { sunPlaced += 1 } else { quietPlaced += 1 }
+        }
+
+        hud.totalBricks = quietPlaced + sunPlaced
+        hud.bricksRemaining = hud.totalBricks
         hud.quietBricksRemaining = quietPlaced
         hud.sunBricksRemaining = sunPlaced
         hud.sunshiftAvailable = sunPlaced > 0
@@ -317,20 +422,39 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
     }
 
     private func buildAimGuide() {
-        aimGuide.strokeColor = .white.withAlphaComponent(0.26)
-        aimGuide.lineWidth = 2
-        aimGuide.glowWidth = 2
-        aimGuide.zPosition = 1
-        aimGuide.isHidden = !settings.aimGuide
+        aimGuide.strokeColor = NSColor(theme.neonAccent).withAlphaComponent(0.88)
+        aimGuide.isAccessibilityElement = false
+        aimGuide.lineWidth = 2.4
+        aimGuide.glowWidth = 8
+        aimGuide.zPosition = 18
+        aimGuide.isHidden = false
         worldNode.addChild(aimGuide)
         updateAimGuide()
     }
 
     private func updateAimGuide() {
-        guard settings.aimGuide, ballIsWaiting else { return }
+        guard ballIsWaiting, let ball = worldNode.childNode(withName: "//ball") else {
+            aimGuide.isHidden = true
+            return
+        }
+        let origin = ball.position
+        let direction = CGVector(dx: sin(launchAngle), dy: cos(launchAngle))
+        let length: CGFloat = settings.aimGuide || isAiming ? 205 : 76
         let path = CGMutablePath()
-        path.move(to: CGPoint(x: paddle.position.x, y: 104))
-        path.addLine(to: CGPoint(x: paddle.position.x + 84, y: 285))
+        let segment: CGFloat = settings.aimGuide || isAiming ? 16 : length
+        var distance: CGFloat = 16
+        while distance < length - 13 {
+            let endDistance = min(length - 13, distance + segment * 0.58)
+            path.move(to: CGPoint(x: origin.x + direction.dx * distance, y: origin.y + direction.dy * distance))
+            path.addLine(to: CGPoint(x: origin.x + direction.dx * endDistance, y: origin.y + direction.dy * endDistance))
+            distance += segment
+        }
+        let tip = CGPoint(x: origin.x + direction.dx * length, y: origin.y + direction.dy * length)
+        let normal = CGVector(dx: -direction.dy, dy: direction.dx)
+        let base = CGPoint(x: tip.x - direction.dx * 15, y: tip.y - direction.dy * 15)
+        path.move(to: CGPoint(x: base.x + normal.dx * 8, y: base.y + normal.dy * 8))
+        path.addLine(to: tip)
+        path.addLine(to: CGPoint(x: base.x - normal.dx * 8, y: base.y - normal.dy * 8))
         aimGuide.path = path
         aimGuide.isHidden = false
     }
@@ -346,12 +470,16 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
         ball.physicsBody?.velocity = .zero
         worldNode.addChild(ball)
         ballIsWaiting = true
+        isAiming = false
+        setPaddleAiming(false)
+        view?.setAccessibilityValue("Ball waiting")
         updateAimGuide()
     }
 
     private func makeBall(at point: CGPoint) -> SKShapeNode {
         let ball = SKShapeNode(circleOfRadius: 11)
         ball.name = "ball"
+        ball.isAccessibilityElement = false
         ball.lineWidth = 2
         ball.position = point
         ball.zPosition = 20
@@ -359,12 +487,25 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
         ball.physicsBody?.isDynamic = true
         ball.physicsBody?.affectedByGravity = false
         ball.physicsBody?.allowsRotation = false
+        ball.physicsBody?.angularDamping = 0
         ball.physicsBody?.linearDamping = 0
         ball.physicsBody?.friction = 0
         ball.physicsBody?.restitution = 1
+        ball.physicsBody?.mass = 0.012
+        ball.physicsBody?.fieldBitMask = 0
+        ball.physicsBody?.isResting = false
         ball.physicsBody?.usesPreciseCollisionDetection = true
         ball.physicsBody?.categoryBitMask = PhysicsCategory.ball
-        ball.physicsBody?.contactTestBitMask = PhysicsCategory.paddle | PhysicsCategory.brick | PhysicsCategory.sunBrick | PhysicsCategory.bottom
+        ball.physicsBody?.contactTestBitMask = PhysicsCategory.paddle | PhysicsCategory.brick | PhysicsCategory.sunBrick | PhysicsCategory.obstacle | PhysicsCategory.bottom
+        let artwork = SKSpriteNode(imageNamed: "NeonBall")
+        artwork.name = "ball-artwork"
+        artwork.isAccessibilityElement = false
+        artwork.size = CGSize(width: 31, height: 31)
+        artwork.zPosition = 1
+        ball.addChild(artwork)
+        if !settings.reducedMotion {
+            artwork.run(.repeatForever(.rotate(byAngle: .pi * 2, duration: 1.5)))
+        }
         updateBallAppearance(ball)
         updateBallCollisionMask(ball)
         attachTrail(to: ball)
@@ -405,7 +546,7 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
             resistedImpact(at: point, affinity: brick.affinity)
             return
         }
-        let destroyed = brick.takeHit()
+        guard let destroyed = brick.takeHit(at: lastUpdateTime) else { return }
         hud.combo += 1
         bestCombo = max(bestCombo, hud.combo)
         hud.score += GameRules.points(forCombo: hud.combo, brickHitPoints: destroyed ? brick.scoreWeight : 1)
@@ -428,7 +569,7 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
         }
 
         if activeUntil[.piercing] != nil {
-            ball.physicsBody?.collisionBitMask = PhysicsCategory.wall | PhysicsCategory.paddle
+            ball.physicsBody?.collisionBitMask = PhysicsCategory.wall | PhysicsCategory.paddle | PhysicsCategory.obstacle
         }
 
         emitHUD()
@@ -445,12 +586,9 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
     }
 
     private func bounce(ball: SKNode) {
-        guard var velocity = ball.physicsBody?.velocity else { return }
+        guard ball.physicsBody != nil else { return }
         let offset = max(-1, min(1, (ball.position.x - paddle.position.x) / (paddle.frame.width / 2)))
-        let angle = offset * (.pi * 0.34)
-        velocity.dx = desiredBallSpeed * sin(angle)
-        velocity.dy = abs(desiredBallSpeed * cos(angle))
-        ball.physicsBody?.velocity = velocity
+        ball.physicsBody?.velocity = BallPhysics.paddleBounce(offset: offset, speed: desiredBallSpeed)
         hud.combo = max(0, hud.combo - 1)
         sound.playPaddle(offset: Double(offset))
         emitHUD()
@@ -510,19 +648,19 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
 
         switch powerUp.kind {
         case .wide:
-            paddle.xScale = 1.48
+            paddle.xScale = CGFloat(level.resolvedPaddleScale) * 1.48
             activateTimed(.wide)
         case .multiball:
             spawnAdditionalBalls()
         case .slow:
-            desiredBallSpeed = baseBallSpeed * 0.72
+            activateTimed(.slow)
+            desiredBallSpeed = targetBallSpeed
             activeBalls().forEach { ball in
                 guard let velocity = ball.physicsBody?.velocity else { return }
-                ball.physicsBody?.velocity = scaled(velocity, to: desiredBallSpeed)
+                ball.physicsBody?.velocity = BallPhysics.normalizedVelocity(velocity, speed: desiredBallSpeed)
             }
-            activateTimed(.slow)
         case .piercing:
-            activeBalls().forEach { $0.physicsBody?.collisionBitMask = PhysicsCategory.wall | PhysicsCategory.paddle }
+            activeBalls().forEach { $0.physicsBody?.collisionBitMask = PhysicsCategory.wall | PhysicsCategory.paddle | PhysicsCategory.obstacle }
             activateTimed(.piercing)
         case .shield:
             hasShield = true
@@ -545,9 +683,9 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
             hud.activePowerUps.removeAll { $0 == kind }
             switch kind {
             case .wide:
-                paddle.xScale = 1
+                paddle.xScale = CGFloat(level.resolvedPaddleScale)
             case .slow:
-                desiredBallSpeed = baseBallSpeed
+                break
             case .piercing:
                 activeBalls().forEach(updateBallCollisionMask)
             case .multiball, .shield:
@@ -558,8 +696,7 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
     }
 
     private func clearTimedPowerUps() {
-        paddle.xScale = 1
-        desiredBallSpeed = baseBallSpeed
+        paddle.xScale = CGFloat(level.resolvedPaddleScale)
         activeUntil.removeAll()
         hud.activePowerUps.removeAll { $0 != .shield }
         activeBalls().forEach(updateBallCollisionMask)
@@ -572,7 +709,10 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
         for index in 0..<count {
             let ball = makeBall(at: source.position)
             let sign: CGFloat = index == 0 ? -1 : 1
-            ball.physicsBody?.velocity = CGVector(dx: desiredBallSpeed * 0.55 * sign, dy: desiredBallSpeed * 0.84)
+            ball.physicsBody?.velocity = BallPhysics.normalizedVelocity(
+                CGVector(dx: 0.55 * sign, dy: 0.84),
+                speed: desiredBallSpeed
+            )
             worldNode.addChild(ball)
         }
         ballIsWaiting = false
@@ -581,26 +721,32 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
     private func normalizeBallVelocities() {
         guard !ballIsWaiting else { return }
         for ball in activeBalls() {
-            guard var velocity = ball.physicsBody?.velocity else { continue }
-            velocity = scaled(velocity, to: desiredBallSpeed)
-            let minimumVertical = desiredBallSpeed * 0.24
-            if abs(velocity.dy) < minimumVertical {
-                velocity.dy = velocity.dy >= 0 ? minimumVertical : -minimumVertical
-                velocity = scaled(velocity, to: desiredBallSpeed)
-            }
-            ball.physicsBody?.velocity = velocity
+            guard let velocity = ball.physicsBody?.velocity else { continue }
+            ball.physicsBody?.velocity = BallPhysics.normalizedVelocity(velocity, speed: desiredBallSpeed)
+            ball.physicsBody?.isResting = false
         }
+    }
+
+    private var targetBallSpeed: CGFloat {
+        BallPhysics.effectiveSpeed(
+            base: baseBallSpeed,
+            completion: hud.restoredFraction,
+            slowed: activeUntil[.slow] != nil
+        )
+    }
+
+    private func advanceBallSpeed(deltaTime: TimeInterval) {
+        desiredBallSpeed = BallPhysics.approach(
+            desiredBallSpeed,
+            target: targetBallSpeed,
+            deltaTime: deltaTime
+        )
     }
 
     private func activeBalls() -> [SKNode] {
         var balls: [SKNode] = []
         worldNode.enumerateChildNodes(withName: "//ball") { node, _ in balls.append(node) }
         return balls
-    }
-
-    private func scaled(_ vector: CGVector, to magnitude: CGFloat) -> CGVector {
-        let current = max(0.001, hypot(vector.dx, vector.dy))
-        return CGVector(dx: vector.dx / current * magnitude, dy: vector.dy / current * magnitude)
     }
 
     private func impact(at point: CGPoint, color: NSColor) {
@@ -630,20 +776,42 @@ final class GameScene: SKScene, @preconcurrency SKPhysicsContactDelegate {
 
     private func updateBallCollisionMask(_ ball: SKNode) {
         guard activeUntil[.piercing] == nil else {
-            ball.physicsBody?.collisionBitMask = PhysicsCategory.wall | PhysicsCategory.paddle
+            ball.physicsBody?.collisionBitMask = PhysicsCategory.wall | PhysicsCategory.paddle | PhysicsCategory.obstacle
             return
         }
         let target = sunshiftActive ? PhysicsCategory.sunBrick : PhysicsCategory.brick
-        ball.physicsBody?.collisionBitMask = PhysicsCategory.wall | PhysicsCategory.paddle | target
+        ball.physicsBody?.collisionBitMask = PhysicsCategory.wall | PhysicsCategory.paddle | PhysicsCategory.obstacle | target
     }
 
     private func updateBallAppearance(_ ball: SKNode) {
         guard let shape = ball as? SKShapeNode else { return }
-        shape.fillColor = sunshiftActive ? sunColor : NSColor(calibratedRed: 0.94, green: 0.96, blue: 1, alpha: 1)
-        shape.strokeColor = sunshiftActive ? .white : NSColor(theme.brickColors[0])
-        shape.glowWidth = sunshiftActive ? 16 : 9
+        shape.fillColor = sunshiftActive ? sunColor.withAlphaComponent(0.28) : NSColor(calibratedRed: 0.94, green: 0.96, blue: 1, alpha: 0.14)
+        shape.strokeColor = sunshiftActive ? .white : NSColor(theme.neonAccent).withAlphaComponent(0.74)
+        shape.glowWidth = sunshiftActive ? 13 : 7
+        if let artwork = shape.childNode(withName: "ball-artwork") as? SKSpriteNode {
+            artwork.color = sunshiftActive ? sunColor : NSColor(theme.neonAccent)
+            artwork.colorBlendFactor = sunshiftActive ? 0.68 : CGFloat(level.resolvedOverlayVariant) * 0.08
+        }
         shape.childNode(withName: "ball-trail").map { node in
             (node as? SKEmitterNode)?.particleColor = sunshiftActive ? sunColor : NSColor(theme.brickColors[0])
+        }
+    }
+
+    private func setPaddleAiming(_ aiming: Bool) {
+        paddleSkin.removeAction(forKey: "aiming")
+        paddle.childNode(withName: "launch-cradle")?.removeAction(forKey: "aiming")
+        if aiming {
+            paddleSkin.run(.repeatForever(.sequence([
+                .fadeAlpha(to: 1, duration: 0.28),
+                .fadeAlpha(to: 0.78, duration: 0.28)
+            ])), withKey: "aiming")
+            paddle.childNode(withName: "launch-cradle")?.run(.repeatForever(.sequence([
+                .scale(to: 1.16, duration: 0.30),
+                .scale(to: 0.94, duration: 0.30)
+            ])), withKey: "aiming")
+        } else {
+            paddleSkin.alpha = 0.88
+            paddle.childNode(withName: "launch-cradle")?.setScale(1)
         }
     }
 

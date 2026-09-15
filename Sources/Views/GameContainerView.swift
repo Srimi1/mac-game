@@ -12,40 +12,43 @@ struct GameContainerView: View {
     private var theme: DayTheme { LevelCatalog.theme(for: level.day) }
 
     var body: some View {
-        ZStack {
-            GameSpriteView(level: level, settings: session.settings, onEvent: handle)
-                .id(gameID)
-                .ignoresSafeArea()
+        GeometryReader { proxy in
+            ZStack {
+                GameSpriteView(level: level, settings: session.settings, onEvent: handle)
+                    .id(gameID)
+                    .frame(width: proxy.size.width, height: proxy.size.height)
 
-            VStack(spacing: 0) {
-                GameHUDView(level: level, theme: theme, hud: hud) {
-                    NotificationCenter.default.post(name: .toggleGamePause, object: nil)
+                VStack(spacing: 0) {
+                    GameHUDView(level: level, theme: theme, hud: hud) {
+                        NotificationCenter.default.post(name: .toggleGamePause, object: nil)
+                    }
+                    Spacer()
+                    if showHint && !paused {
+                        Label(hintText, systemImage: level.usesSunshift ? "sun.max.fill" : "cursorarrow.motionlines")
+                            .font(.system(size: 11, weight: .black, design: .rounded))
+                            .tracking(1.8)
+                            .padding(.horizontal, 18)
+                            .padding(.vertical, 9)
+                            .background(NeonPalette.panel.opacity(0.90), in: Capsule())
+                            .overlay(Capsule().stroke(NeonPalette.cyan.opacity(0.34)))
+                            .foregroundStyle(level.usesSunshift ? Color(hex: 0xFFD447) : .white)
+                            .transition(.opacity)
+                            .padding(.bottom, 22)
+                    }
                 }
-                Spacer()
-                if showHint && !paused {
-                    Label(hintText, systemImage: level.usesSunshift ? "sun.max.fill" : "cursorarrow.motionlines")
-                        .font(.system(size: 11, weight: .black, design: .rounded))
-                        .tracking(1.8)
-                        .padding(.horizontal, 18)
-                        .padding(.vertical, 9)
-                        .background(.black.opacity(0.38), in: Capsule())
-                        .overlay(Capsule().stroke(.white.opacity(0.12)))
-                        .foregroundStyle(level.usesSunshift ? Color(hex: 0xFFD447) : .white)
-                        .transition(.opacity)
-                        .padding(.bottom, 22)
+
+                if paused {
+                    PauseOverlay(
+                        onResume: { NotificationCenter.default.post(name: .toggleGamePause, object: nil) },
+                        onRestart: restart,
+                        onExit: session.showDaySelect
+                    )
+                    .transition(.opacity)
                 }
             }
-
-            if paused {
-                PauseOverlay(
-                    onResume: { NotificationCenter.default.post(name: .toggleGamePause, object: nil) },
-                    onRestart: restart,
-                    onExit: session.showDaySelect
-                )
-                .transition(.opacity)
-            }
+            .frame(width: proxy.size.width, height: proxy.size.height)
         }
-        .background(Color(hex: 0x15152A))
+        .background(NeonPalette.void)
         .clipShape(Rectangle())
         .animation(session.settings.reducedMotion ? nil : .easeOut(duration: 0.2), value: paused)
         .task(id: gameID) {
@@ -61,7 +64,7 @@ struct GameContainerView: View {
                 ? "SUNSHIFT ACTIVE  ·  THE YELLOW BALL ONLY BREAKS ☀ BARS"
                 : "CLEAR PALE SHAPES  ·  THEN THE BALL TURNS YELLOW FOR ☀ BARS"
         }
-        return "MOVE WITH TRACKPAD  ·  CLICK OR SPACE TO LAUNCH"
+        return "MOVE WITH TRACKPAD  ·  DRAG FROM THE BALL TO AIM  ·  RELEASE TO LAUNCH"
     }
 
     private func handle(_ event: GameEvent) {
@@ -90,7 +93,8 @@ private struct GameHUDView: View {
     let onPause: () -> Void
 
     var body: some View {
-        HStack(spacing: 18) {
+        GeometryReader { proxy in
+            HStack(spacing: 14) {
             VStack(alignment: .leading, spacing: 2) {
                 Text("DAY \(level.day) · ROOM \(level.stage)")
                     .font(.system(size: 9, weight: .black, design: .rounded))
@@ -98,7 +102,10 @@ private struct GameHUDView: View {
                     .foregroundStyle(.white.opacity(0.45))
                 Text(level.title)
                     .font(.system(size: 16, weight: .black, design: .rounded))
+                    .lineLimit(1)
             }
+            .fixedSize(horizontal: true, vertical: false)
+            .layoutPriority(3)
 
             VStack(alignment: .leading, spacing: 4) {
                 GeometryReader { proxy in
@@ -109,14 +116,16 @@ private struct GameHUDView: View {
                             .frame(width: proxy.size.width * hud.restoredFraction)
                     }
                 }
-                .frame(width: 150, height: 7)
+                .frame(width: 136, height: 7)
                 Text("\(hud.bricksRemaining) shapes remain")
                     .font(.system(size: 9, weight: .bold, design: .rounded))
                     .foregroundStyle(.white.opacity(0.4))
             }
+            .layoutPriority(2)
 
             if hud.sunshiftAvailable {
                 PhaseBadge(hud: hud)
+                    .layoutPriority(2)
             }
 
             Spacer()
@@ -141,11 +150,17 @@ private struct GameHUDView: View {
                     .contentTransition(.numericText())
             }
 
-            Text(hud.score.formatted())
-                .font(.system(size: 18, weight: .black, design: .rounded))
-                .monospacedDigit()
-                .frame(minWidth: 72, alignment: .trailing)
-                .contentTransition(.numericText())
+            VStack(alignment: .trailing, spacing: 0) {
+                Text("SCORE")
+                    .font(.system(size: 7, weight: .black, design: .rounded))
+                    .tracking(1.2)
+                    .foregroundStyle(.white.opacity(0.38))
+                Text(hud.score.formatted())
+                    .font(.system(size: 18, weight: .black, design: .rounded))
+                    .monospacedDigit()
+                    .contentTransition(.numericText())
+            }
+            .frame(minWidth: 66, alignment: .trailing)
 
             HStack(spacing: 4) {
                 ForEach(0..<GameRules.startingLives, id: \.self) { index in
@@ -163,11 +178,13 @@ private struct GameHUDView: View {
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Pause")
+            }
+            .padding(.horizontal, max(18, (proxy.size.width - 960) / 2 + 18))
+            .frame(width: proxy.size.width, height: 63)
         }
-        .padding(.horizontal, 22)
         .frame(height: 63)
-        .background(.black.opacity(0.40))
-        .overlay(alignment: .bottom) { Rectangle().fill(.white.opacity(0.08)).frame(height: 1) }
+        .background(NeonPalette.void.opacity(0.84))
+        .overlay(alignment: .bottom) { Rectangle().fill(NeonPalette.cyan.opacity(0.24)).frame(height: 1) }
     }
 }
 

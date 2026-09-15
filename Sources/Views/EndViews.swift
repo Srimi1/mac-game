@@ -8,7 +8,7 @@ struct ResultsView: View {
             if let result = session.lastResult, let level = session.selectedLevel {
                 Image(systemName: result.didComplete ? "sparkles" : "moon.zzz.fill")
                     .font(.system(size: 48, weight: .bold))
-                    .foregroundStyle(result.didComplete ? Color(hex: 0xFFE0A8) : .white.opacity(0.45))
+                    .foregroundStyle(result.didComplete ? NeonPalette.cyan : .white.opacity(0.45))
                 Text(result.didComplete ? "The room is singing" : "The room went quiet")
                     .font(.system(size: 36, weight: .black, design: .rounded))
                 Text("Day \(level.day) · \(level.title)")
@@ -55,8 +55,8 @@ struct FinaleView: View {
         VStack(spacing: 24) {
             Image(systemName: "sun.max.trianglebadge.exclamationmark.fill")
                 .font(.system(size: 68))
-                .foregroundStyle(Color(hex: 0xFFE0A8))
-                .shadow(color: Color(hex: 0xF3A68A).opacity(glow ? 0.8 : 0.2), radius: glow ? 38 : 12)
+                .foregroundStyle(NeonPalette.gold)
+                .shadow(color: NeonPalette.magenta.opacity(glow ? 0.8 : 0.2), radius: glow ? 38 : 12)
                 .scaleEffect(glow ? 1.04 : 0.98)
             Text("Tomorrow won’t be quiet.")
                 .font(.system(size: 42, weight: .black, design: .rounded))
@@ -65,7 +65,7 @@ struct FinaleView: View {
                 .foregroundStyle(.white.opacity(0.62))
             Text("\(session.progress.totalStars) of \(LevelCatalog.maximumStars) stars")
                 .font(.headline)
-                .foregroundStyle(Color(hex: 0xA7D6C4))
+                .foregroundStyle(NeonPalette.cyan)
             HStack(spacing: 12) {
                 GlassButton(title: "Visit the Days", icon: "square.grid.2x2.fill") { session.showDaySelect() }
                 GlassButton(title: "Home", icon: "house.fill") { session.showHome() }
@@ -99,7 +99,7 @@ struct CreditsView: View {
             Text("No ads · No tracking · No network")
                 .font(.caption.bold())
                 .tracking(1.5)
-                .foregroundStyle(Color(hex: 0xA7D6C4).opacity(0.8))
+                .foregroundStyle(NeonPalette.cyan.opacity(0.8))
         }
         .padding(40)
     }
